@@ -2,7 +2,7 @@
 
 CXX = gcc
 LIBS = -lm
-CFLAGS = -Wall -Wextra -Werror -Wpedantic
+CFLAGS = -Wall -Wextra -Werror -Wpedantic -O3
 SRCS = main.c
 HDRS = header.h
 EXEC = main.out
@@ -13,7 +13,7 @@ MEDIA = Aa.png
 
 all: $(MEDIA)
 
-$(EXEC): $(SCRS) $(HDRS)
+$(EXEC): $(SRCS) $(HDRS)
 	$(CXX) $(SRCS) $(CFLAGS) $(LIBS) -o $@
 
 $(DATA): $(EXEC)
