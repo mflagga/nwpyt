@@ -19,12 +19,15 @@ int main(){
     double *psi = malloc((N+1)*sizeof(double));
     double E=met_czas_urojony(L,N,V,delta,psi,x,hbar,m,dx,dtau);
     double *psi_analityczne = malloc((N+1)*sizeof(double));    
-
+    for (int i=0;i<=N;i++) psi_analityczne[i] = sqrt(2.0/L)*sin(M_PI*x[i]/L);
+    FILE *Aa = fopen("Aa.csv","w");
+    for (int i=0;i<=N;i++) fprintf(Aa,"%lf,%lf,%lf\n",x[i],psi[i],psi_analityczne[i]);
     // czystki
     free(x);
     free(V);
     free(psi);
     free(psi_analityczne);
+    fclose(Aa);
     // return zero
     return 0;
 }
