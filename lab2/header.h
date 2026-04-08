@@ -46,9 +46,10 @@ double met_czas_urojony(double L, int N, double *V, double delta, double *psi, d
         }
         normuj_ffalowa(psin,N,dx);
         En=licz_E(psin,V,hbar,m,dx,N);
-        memcpy(psi,psin,(N=1)*sizeof(double));
+        memcpy(psi,psin,(N+1)*sizeof(double));
         p++;
     }while(fabs(En-E)>=delta);
+    printf("Zbiegło się w %d iteracjach\n",p);
     free(psin);
     return E;
 }
