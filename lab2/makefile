@@ -14,7 +14,6 @@ CFLAGS = -Wall -Wextra -Werror -Wpedantic -O3
 SRCS = main.c
 HDRS = header.h
 EXEC = main.out
-PC = python
 SCRIPT = wykres.py
 DATA = Aa.csv Amisc.csv
 MEDIA = Aa.png
