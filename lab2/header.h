@@ -35,7 +35,7 @@ double licz_E(double *psi, double *V, double hbar, double m, double dx, int N){
 double met_czas_urojony(double L, int N, double *V, double delta, double *psi, double *x, double hbar, double m, double dx, double dtau){
     int p=0;
     for (int i=0;i<=N;i++) psi[i] = psi0odx(x[i],L);
-    double *psin = malloc((N+1)*sizeof(double));
+    double *psin = calloc(N+1,sizeof(double));
     double E;
     double En=licz_E(psi,V,hbar,m,dx,N);
     double c=hbar*dtau/(2*m*dx*dx);
