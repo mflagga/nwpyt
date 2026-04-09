@@ -1,6 +1,6 @@
 ifeq ($(OS),Windows_NT)
 	PC = python
-	RM = del /Q
+	RM = del /q
 else
 	PC = python3
 	RM = rm -f

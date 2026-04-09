@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <complex.h>
+// #include <complex.h>
 #include <string.h>
 
 double f(double x){
@@ -49,7 +49,7 @@ double met_czas_urojony(double L, int N, double *V, double delta, double *psi, d
         memcpy(psi,psin,(N+1)*sizeof(double));
         p++;
     }while(fabs(En-E)>=delta);
-    printf("Zbiegło się w %d iteracjach\n",p);
+    printf("Zbieglo sie w %d iteracjach\n",p);
     free(psin);
     return E;
 }
