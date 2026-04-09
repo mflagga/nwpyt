@@ -6,7 +6,7 @@
 #include <string.h>
 
 double f(double x){
-    return x*x;
+    return 0.4+0.0*x;
 }
 
 double psi0odx(double x, double L){
