@@ -1,3 +1,11 @@
+ifeq ($(OS),Windows_NT)
+	PC = python
+	RM = del /Q
+else
+	PC = python3
+	RM = rm -f
+endif
+
 .SUFFIXES:
 
 CXX = gcc
@@ -6,7 +14,7 @@ CFLAGS = -Wall -Wextra -Werror -Wpedantic -O3
 SRCS = main.c
 HDRS = header.h
 EXEC = main.out
-PC = python3
+PC = python
 SCRIPT = wykres.py
 DATA = Aa.csv Amisc.csv
 MEDIA = Aa.png
@@ -23,8 +31,8 @@ $(MEDIA): $(SCRIPT) $(DATA)
 	$(PC) $<
 
 clean:
-	rm -f $(EXEC)
-	rm -f $(DATA)
-	rm -f $(MEDIA)
+	$(RM) $(EXEC)
+	$(RM) $(DATA)
+	$(RM) $(MEDIA)
 
 .PHONY: all clean
