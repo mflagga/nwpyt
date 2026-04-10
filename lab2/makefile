@@ -15,8 +15,8 @@ SRCS = main.c
 HDRS = header.h
 EXEC = main.out
 SCRIPT = wykres.py
-DATA = Aa.csv Amisc.csv
-MEDIA = Aa.png
+DATA = Aa.csv Amisc.csv Ab.csv
+MEDIA = Aa.png Ab.png
 
 all: $(MEDIA)
 
