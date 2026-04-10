@@ -12,10 +12,9 @@ int main(){
     double dtau=0.5*m*dx*dx/hbar;
     // alokacja/inicjalizacja
     double *x = malloc((N+1)*sizeof(double));
-    double *V = malloc((N+1)*sizeof(double));
+    double *V = calloc((N+1),sizeof(double));
     for (int i=0;i<=N;i++){
         x[i] = i*dx;
-        V[i] = 0.0;
     }
     double *psi = malloc((N+1)*sizeof(double));
     double E=met_czas_urojony(L,N,V,delta,psi,x,hbar,m,dx,dtau); // metoda
@@ -31,11 +30,38 @@ int main(){
     FILE *Ab=fopen("Ab.csv","w");
     for (int i=0;i<=N;i++) fprintf(Ab,"%lf\n",pow(fabs(psi[i]),2));
     /* SKONCZONA STUDNIA POTENCJALU */
+    dtau=0.5*m*dx*dx/hbar;
     double a=5.0;
+    double L0=6.0;
+    double V0=10.0;
     double xa, xb;
-    for (int L=6; L<=14; L+=2){
-        
+    int licznikmax=5;
+    double plusrowne=2.0;
+    L=L0;
+    double **ss_psi = malloc(licznikmax*sizeof(double*));
+    for (int i=0;i<licznikmax;i++) ss_psi[i]=calloc(N+1,sizeof(double));
+    double *ss_E=malloc(licznikmax*sizeof(double));
+    FILE *BEL=fopen("BEL.csv","w");
+    for (int licznik=0; licznik<licznikmax; licznik++){
+        xa=L/2-a/2;
+        xb=L/2+a/2;
+        dx = L/N;
+        for (int i=0;i<=N;i++) x[i] = dx*i;
+        for (int i=0;i<=N;i++) if ((x[i]<=xa) || (x[i]>=xb)) V[i]=fabs(V0);
+        ss_E[licznik]=met_czas_urojony(L,N,V,delta,ss_psi[licznik],x,hbar,m,dx,dtau);
+        fprintf(BEL,"%lf,%lf\n",ss_E[licznik],L);
+        L += plusrowne;
     }
+    FILE *Ba = fopen("Ba.csv","w");
+    for (int i=0;i<=N;i++){
+        for (int licznik=0;licznik<licznikmax;licznik++){
+            if (licznik>0) fprintf(Ba,",");
+            fprintf(Ba,"%lf",pow(fabs(ss_psi[licznik][i]),2));
+        }
+        fprintf(Ba,"\n");
+    }
+    FILE *Bmisc=fopen("Bmisc.csv","w");
+    fprintf(Bmisc,"%lf,%lf,%d",a,fabs(V0),licznikmax);
     // czystki
     free(x);
     free(V);
@@ -44,6 +70,12 @@ int main(){
     fclose(Aa);
     fclose(Amisc);
     fclose(Ab);
+    for (int i=0;i<licznikmax;i++) free(ss_psi[i]);
+    free(ss_psi);
+    free(ss_E);
+    fclose(Ba);
+    fclose(BEL);
+    fclose(Bmisc);
     // return zero
     return 0;
 }
