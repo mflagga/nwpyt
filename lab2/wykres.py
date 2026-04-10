@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# wczytanie plików
 Aa = np.loadtxt("Aa.csv",delimiter=",")
 Amisc = np.loadtxt("Amisc.csv",delimiter=",")
 Ab = np.loadtxt("Ab.csv",delimiter=',')
@@ -8,10 +9,11 @@ Ba = np.loadtxt("Ba.csv",delimiter=',')
 BEL = np.loadtxt("BEL.csv",delimiter=',')
 Bmisc = np.loadtxt("Bmisc.csv",delimiter=',')
 
+# wykres nieskonczonej studni normalne delta
 plt.figure(figsize=(9.6,5.4))
 plt.plot(Aa[:,0],Aa[:,1],ls='--',color='black',label=rf'Analityczne; $E_1={np.pi**2/(2*Amisc[2]**2):.5f}$')
 plt.plot(Aa[:,0],Aa[:,2],label=rf'Numeryczne; $E_1={Amisc[0]:.5f}$')
-plt.title(rf'$|E_{{analityczne}}-E_{{numeryczne}}|={abs(np.pi**2/(2*Amisc[2]**2)-Amisc[0]):e}$')
+plt.title(rf'$N={Amisc[1]:.0f};\ \epsilon={Amisc[3]:.0e};\ |E_{{analityczne}}-E_{{numeryczne}}|={abs(np.pi**2/(2*Amisc[2]**2)-Amisc[0]):e}$')
 plt.xlabel(rf'$x$')
 plt.ylabel(rf'$|\psi(x)|^2$')
 plt.legend()
@@ -20,10 +22,11 @@ plt.tight_layout()
 plt.savefig("Aa.png")
 plt.close()
 
+# wykres nieskonczonej studni nienormalna delta
 plt.figure(figsize=(9.6,5.4))
 plt.plot(Aa[:,0],Aa[:,1],ls='--',color='black',label=rf'Analityczne; $E_1={np.pi**2/(2*Amisc[2]**2):.5f}$')
 plt.plot(Aa[:,0],Ab[:],label=rf'Numeryczne; $E_1={Amisc[4]:.5f}$')
-plt.title(rf'$|E_{{analityczne}}-E_{{numeryczne}}|={abs(np.pi**2/(2*Amisc[2]**2)-Amisc[4])}$')
+plt.title(rf'$N={Amisc[1]:.0f};\ \epsilon={Amisc[3]:.0e};\ |E_{{analityczne}}-E_{{numeryczne}}|={abs(np.pi**2/(2*Amisc[2]**2)-Amisc[4])}$')
 plt.xlabel(rf'$x$')
 plt.ylabel(rf'$|\psi(x)|^2$')
 plt.legend()
@@ -32,6 +35,7 @@ plt.tight_layout()
 plt.savefig("Ab.png")
 plt.close()
 
+# wykres skończona studnia potencjalu
 plt.figure(figsize=(9.6,5.4))
 for i in range(int(Bmisc[2])):
     plt.plot(Aa[:,0],Ba[:,i],label=rf'$L={BEL[i,1]};\ E={BEL[i,0]}$')
