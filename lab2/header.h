@@ -49,7 +49,7 @@ double met_czas_urojony(double L, int N, double *V, double delta, double *psi, d
         memcpy(psi,psin,(N+1)*sizeof(double));
         p++;
     }while(fabs(En-E)>=delta);
-    printf("Zbieglo sie w %d iteracjach\n",p);
+    printf("N=%d; L=%.0lf; delta=%.2e; Zbieglo sie w %d iteracjach\n",N,L,delta,p);
     free(psin);
     return E;
 }
