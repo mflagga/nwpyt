@@ -1,9 +1,11 @@
 ifeq ($(OS),Windows_NT)
 	PC = python
 	RM = del /q
+	VR = echo "nie ma valgrinda na windowsie"
 else
 	PC = python3
 	RM = rm -f
+	VR = valgrind ./$(EXEC)
 endif
 
 .SUFFIXES:
@@ -35,6 +37,6 @@ clean:
 	$(RM) $(MEDIA)
 
 safe: $(EXEC)
-	valgrind ./$<
+	$(VR)
 
 .PHONY: all clean safe
