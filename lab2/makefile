@@ -34,4 +34,7 @@ clean:
 	$(RM) $(DATA)
 	$(RM) $(MEDIA)
 
-.PHONY: all clean
+safe: $(EXEC)
+	valgrind ./$<
+
+.PHONY: all clean safe
