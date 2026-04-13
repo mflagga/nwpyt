@@ -115,3 +115,11 @@ double met_czas_urojony_2D(double L, int N, double *V, double delta, double *psi
     free(psin);
     return E;
 }
+
+void V_init_2D(double *V, double V0, int N, double *x, double *y, double L, double sigma){
+    for (int i=0;i<=N;i++){
+        for (int j=0;j<=N;j++){
+            V[i*(N+1)+j]=-fabs(V0)*exp((-pow(x[i]-L/2,2)-pow(y[j]-L/2,2))/(sigma*sigma));
+        }
+    }
+}

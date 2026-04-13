@@ -121,6 +121,28 @@ int main(){
     }
     fprintf(Cmisc,"%d,%lf,%lf",N,L,E);
 
+    /* 2D studnia z potencjalem gaussowskim */
+    
+    // pararmetry
+    double sigma = L/8;
+    V0=4.0;
+
+    // inicjalizacja
+    V_init_2D(V,V0,N,x,y,L,sigma);
+
+    // metoda
+    E=met_czas_urojony_2D(L,N,V,delta,psi,x,hbar,m,dx,dtau,y);
+
+    // zapis
+    FILE *Da=fopen("Da.csv","w");
+    FILE *Dmisc=fopen("Dmisc.csv","w");
+    for (int i=0;i<=N;i++){
+        for (int j=0;j<=N;j++){
+            fprintf(Da,"%lf\n",pow(fabs(psi[i*(N+1)+j]),2));
+        }
+    }
+    fprintf(Dmisc,"%lf",E);
+
     // czystki
     free(x);
     free(y);
@@ -138,6 +160,8 @@ int main(){
     fclose(Bmisc);
     fclose(Ca);
     fclose(Cmisc);
+    fclose(Da);
+    fclose(Dmisc);
 
     // return zero
     return 0;

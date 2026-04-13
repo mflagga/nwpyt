@@ -10,6 +10,8 @@ BEL = np.loadtxt("BEL.csv",delimiter=',')
 Bmisc = np.loadtxt("Bmisc.csv",delimiter=',')
 Ca = np.loadtxt("Ca.csv",delimiter=',')
 Cmisc = np.loadtxt("Cmisc.csv",delimiter=',')
+Da = np.loadtxt("Da.csv",delimiter=',')
+Dmisc = np.loadtxt("Dmisc.csv",delimiter=',')
 
 # wykres nieskonczonej studni normalne delta tau
 plt.figure(figsize=(9.6,5.4))
@@ -58,4 +60,13 @@ plt.title(rf"$E={Cmisc[2]}$")
 plt.colorbar()
 plt.tight_layout()
 plt.savefig('Ca.png')
+plt.close()
+
+# wykres 2D rozwiazania z potencjalem
+plt.figure(figsize=(7.5,6))
+plt.imshow(Da.reshape((int(Cmisc[0]+1),int(Cmisc[0]+1))).T,origin='lower',cmap='inferno')
+plt.title(rf"$E={Dmisc}$")
+plt.colorbar()
+plt.tight_layout()
+plt.savefig('Da.png')
 plt.close()
