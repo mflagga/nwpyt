@@ -49,7 +49,69 @@ double met_czas_urojony(double L, int N, double *V, double delta, double *psi, d
         memcpy(psi,psin,(N+1)*sizeof(double));
         p++;
     }while(fabs(En-E)>=delta);
-    printf("N=%d; L=%.0lf; delta=%.2e; Zbieglo sie w %d iteracjach\n",N,L,delta,p);
+    printf("1D; N=%d; L=%.0lf; delta=%.2e; Zbieglo sie w %d iteracjach\n",N,L,delta,p);
+    free(psin);
+    return E;
+}
+
+double psi0odxy(double x, double y, double L){
+    return x*(L-x)*y*(L-y);
+}
+
+void normuj_ffalowa_2D(double *psi, int N,double dx){
+    double norm=0.0;
+    for (int i=0;i<=N;i++){
+        for (int j=0;j<=N;j++){
+            norm += pow(fabs(psi[i*(N+1)+j]),2)*dx*dx;
+        }
+    }
+    double c = 1.0/sqrt(norm);
+    for (int i=0;i<=N;i++){
+        for (int j=0;j<=N;j++){
+            psi[i*(N+1)+j]*=c;
+        }
+    }
+    for (int i=0;i<=N;i++) {psi[i*(N+1)]=0.0; psi[i*(N+1)+N]=0.0;}
+    for (int j=0;j<=N;j++) {psi[j]=0.0; psi[N*(N+1)+j]=0.0;}
+}
+
+double licz_E_2D(double *psi, double *V, double hbar, double m, double dx, int N){
+    double E=0.0;
+    int ny=N+1;
+    double c=-hbar*hbar/(2.0*m*dx*dx);
+    for (int i=1;i<N;i++){
+        for (int j=1;j<N;j++){
+            E += psi[i*ny+j]*(c*(psi[(i+1)*ny+j]-4*psi[i*ny+j]+psi[(i-1)*ny+j]+psi[i*ny+j+1]+psi[i*ny+j-1])+V[i*ny+j]*psi[i*ny+j])*dx*dx;
+        }
+    }
+    return E;
+}
+
+double met_czas_urojony_2D(double L, int N, double *V, double delta, double *psi, double *x, double hbar, double m, double dx, double dtau, double *y){
+    int p=0;
+    int ny=N+1;
+    for (int i=0;i<=N;i++){
+        for (int j=0;j<=N;j++){
+            psi[i*ny+j] = psi0odxy(x[i],y[j],L);
+        }
+    }
+    double *psin = calloc(ny*ny,sizeof(double));
+    double E;
+    double En=licz_E_2D(psi,V,hbar,m,dx,N);
+    double c=hbar*dtau/(2*m*dx*dx);
+    do{
+        E=En;
+        for (int i=1;i<N;i++){
+            for (int j=1;j<N;j++){
+                psin[i*ny+j]=c*(psi[(i-1)*ny+j]+psi[(i+1)*ny+j]+psi[i*ny+j-1]+psi[i*ny+j+1]-4*psi[i*ny+j])+(1.0-V[i*ny+j]*dtau/hbar)*psi[i*ny+j];
+            }
+        }
+        normuj_ffalowa_2D(psin,N,dx);
+        En=licz_E_2D(psin,V,hbar,m,dx,N);
+        memcpy(psi,psin,ny*ny*sizeof(double));
+        p++;
+    }while(fabs(En-E)>=delta);
+    printf("2D; N=%d; L=%.0lf; delta=%.2e; Zbieglo sie w %d iteracjach\n",N,L,delta,p);
     free(psin);
     return E;
 }

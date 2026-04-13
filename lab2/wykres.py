@@ -8,8 +8,10 @@ Ab = np.loadtxt("Ab.csv",delimiter=',')
 Ba = np.loadtxt("Ba.csv",delimiter=',')
 BEL = np.loadtxt("BEL.csv",delimiter=',')
 Bmisc = np.loadtxt("Bmisc.csv",delimiter=',')
+Ca = np.loadtxt("Ca.csv",delimiter=',')
+Cmisc = np.loadtxt("Cmisc.csv",delimiter=',')
 
-# wykres nieskonczonej studni normalne delta
+# wykres nieskonczonej studni normalne delta tau
 plt.figure(figsize=(9.6,5.4))
 plt.plot(Aa[:,0],Aa[:,1],ls='--',color='black',label=rf'Analityczne; $E_1={np.pi**2/(2*Amisc[2]**2):.5f}$')
 plt.plot(Aa[:,0],Aa[:,2],label=rf'Numeryczne; $E_1={Amisc[0]:.5f}$')
@@ -22,7 +24,7 @@ plt.tight_layout()
 plt.savefig("Aa.png")
 plt.close()
 
-# wykres nieskonczonej studni nienormalna delta
+# wykres nieskonczonej studni nienormalna delta tau
 plt.figure(figsize=(9.6,5.4))
 plt.plot(Aa[:,0],Aa[:,1],ls='--',color='black',label=rf'Analityczne; $E_1={np.pi**2/(2*Amisc[2]**2):.5f}$')
 plt.plot(Aa[:,0],Ab[:],label=rf'Numeryczne; $E_1={Amisc[4]:.5f}$')
@@ -47,4 +49,13 @@ plt.xticks([0, Amisc[2]/2, Amisc[2]], [r'$0$', r'$\frac{L}{2}$', r'$L$'])
 plt.grid(ls=":")
 plt.tight_layout()
 plt.savefig("Ba.png")
+plt.close()
+
+# wykres 2D rozwiazania
+plt.figure(figsize=(7.5,6))
+plt.imshow(Ca.reshape((int(Cmisc[0]+1),int(Cmisc[0]+1))).T,origin='lower',cmap='inferno')
+plt.title(rf"$E={Cmisc[2]}$")
+plt.colorbar()
+plt.tight_layout()
+plt.savefig('Ca.png')
 plt.close()
