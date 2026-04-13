@@ -6,7 +6,7 @@ int main(){
 
     // parametry
     double L = 5;
-    int N = 500;
+    int N = 1000;
     double dx = L/N;
     double delta = 1e-10;
     double m=1.0;
@@ -93,7 +93,7 @@ int main(){
     free(psi);
 
     // parametry
-    N = 100;
+    N = 150;
     L = 5;
     dx = L/N;
     dtau = 0.5*(m*dx*dx)/(2*hbar);
