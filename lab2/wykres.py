@@ -40,15 +40,32 @@ plt.savefig("Ab.png")
 plt.close()
 
 # wykres skończona studnia potencjalu
-plt.figure(figsize=(9.6,5.4))
-for i in range(int(Bmisc[2])):
-    plt.plot(Aa[:,0],Ba[:,i],label=rf'$L={BEL[i,1]};\ E={BEL[i,0]}$')
-plt.title(rf'Skończona studnia; $a={Bmisc[0]}$')
-plt.legend()
-plt.xlabel(rf'$x$')
-plt.ylabel(rf'$|\psi(x)|^2$')
-plt.xticks([0, Amisc[2]/2, Amisc[2]], [r'$0$', r'$\frac{L}{2}$', r'$L$'])
-plt.grid(ls=":")
+# plt.figure(figsize=(9.6,5.4))
+# for i in range(int(Bmisc[2])):
+#     plt.plot(Aa[:,0],Ba[:,i],label=rf'$L={BEL[i,1]};\ E={BEL[i,0]}$')
+# plt.title(rf'Skończona studnia; $a={Bmisc[0]}$')
+# plt.legend()
+# plt.xlabel(rf'$x$')
+# plt.ylabel(rf'$|\psi(x)|^2$')
+# plt.xticks([0, Amisc[2]/2, Amisc[2]], [r'$0$', r'$\frac{L}{2}$', r'$L$'])
+# plt.grid(ls=":")
+# plt.tight_layout()
+# plt.savefig("Ba.png")
+# plt.close()
+fig,axs = plt.subplots(2,2,figsize=(12,9))
+for i, ax in enumerate(axs.flat):
+    L_i = BEL[i, 1]
+    x_i = np.linspace(0,L_i,len(Ba[:,i]))
+    xa = L_i/2-Bmisc[0]/2
+    xb = L_i/2+Bmisc[0]/2
+    ax.plot(x_i,Ba[:,i])
+    ax.axvline(xa,color='black', ls='--')
+    ax.axvline(xb, color='black', ls='--')
+    ax.set_title(rf'$L={L_i:.0f};\ E={BEL[i,0]:.5f}$')
+    ax.set_xlabel(rf'$x$')
+    ax.set_ylabel(rf'$|\psi(x)|^2$')
+    ax.grid(ls=':')
+fig.suptitle(rf'$a={Bmisc[0]:.0f},\ V_0={Bmisc[1]:.0f}$')
 plt.tight_layout()
 plt.savefig("Ba.png")
 plt.close()
