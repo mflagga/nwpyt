@@ -141,7 +141,7 @@ int main(){
             fprintf(Da,"%lf\n",pow(fabs(psi[i*(N+1)+j]),2));
         }
     }
-    fprintf(Dmisc,"%lf",E);
+    fprintf(Dmisc,"%lf,%lf",E,L);
 
     // czystki
     free(x);
