@@ -52,7 +52,7 @@ plt.close()
 # plt.tight_layout()
 # plt.savefig("Ba.png")
 # plt.close()
-fig,axs = plt.subplots(2,2,figsize=(12,9))
+fig, axs = plt.subplots(2,2,figsize=(12,9))
 for i, ax in enumerate(axs.flat):
     L_i = BEL[i, 1]
     x_i = np.linspace(0,L_i,len(Ba[:,i]))
