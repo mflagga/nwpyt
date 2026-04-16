@@ -3,8 +3,8 @@
 int main(){
     srand(time(NULL));
     // parametry
-    int nx=128;
-    int ny=128;
+    int nx=64;
+    int ny=64;
     double L=5.0;
     double eps=1.0;
     double Lx=L;
@@ -17,20 +17,48 @@ int main(){
     int tp2=8;
     double R=1.0;
     double r=10.0;
+    double tol=1e-7;
+    int co_ile=1000;
+    double omega=1.9;
     dim3 block2 = dim3(tp2,tp2);
     dim3 grid2 = dim3((nx+block2.x+1)/block2.x,(ny+block2.y+1)/block2.y);
     // alokacja
     double *x; cudaMalloc(&x,Nx*sizeof(double));
     double *y; cudaMalloc(&y,Ny*sizeof(double));
-    double *sys_mask; cudaMalloc(&sys_mask,Nx*Ny*sizeof(double));
+    int *sys_mask; cudaMalloc(&sys_mask,Nx*Ny*sizeof(int));
+    double *rho; cudaMalloc(&rho,Nx*Ny*sizeof(double));
+    double *v; cudaMalloc(&v,Nx*Ny*sizeof(double));
     // inicjalizacja
     fill1D<<<(nx+tp1)/tp1,tp1>>>(x,nx,dx,-Lx/2);
     fill1D<<<(ny+tp1)/tp1,tp1>>>(y,ny,dy,-Ly/2);
     cudaDeviceSynchronize();
+    system1<<<grid2,block2>>>(sys_mask,rho,nx,ny,x,y,R,r);
+    system2<<<grid2,block2>>>(sys_mask,rho,nx,ny,r);
+    system3<<<grid2,block2>>>(sys_mask,rho,nx,ny,Lx,Ly,x,y,r);
+    fill2DwithC<<<grid2,block2>>>(v,nx,ny,r/2);
+    cudaDeviceSynchronize();
+    petla_relaksacyjna(block2,grid2,nx,ny,sys_mask,dx,dy,v,rho,-10.0,10.0,eps,omega,co_ile,tol);
+    double *vc = new double[Nx*Ny];
+    cudaMemcpy(vc,v,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
+    int *sys_maskc=new int[Nx*Ny];
+    cudaMemcpy(sys_maskc,sys_mask,Nx*Ny*sizeof(int),cudaMemcpyDeviceToHost);
+    double *rhoc=new double[Nx*Ny];
+    cudaMemcpy(rhoc,rho,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
+    FILE *S1a=fopen("S1a.csv","w");
+    for (int i=0;i<=nx;i++){
+        for (int j=0;j<=ny;j++){
+            fprintf(S1a,"%lf,%d,%lf\n",vc[i*Ny+j],sys_maskc[i*Ny+j],rhoc[i*Ny+j]);
+        }
+    }
     // czystki
     cudaFree(x);
     cudaFree(y);
     cudaFree(sys_mask);
+    cudaFree(rho);
+    fclose(S1a);
+    delete [] vc;
+    delete [] sys_maskc;
+    delete [] rhoc;
     // return zero
     return 0;
 }

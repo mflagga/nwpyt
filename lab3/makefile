@@ -17,16 +17,23 @@ EXEC = main.out
 SRCS = main.cu
 HDRS = header.cuh
 SCRIPT = plot.py
+DATA = S1a.csv
+MEDIA = img/S1mask.png
 
-all: gotowe
+all: $(MEDIA)
 
 $(EXEC): $(SRCS) $(HDRS)
 	$(CXX) $(SRCS) $(CFLAGS) $(LIBS) -o $@
 
-gotowe: $(EXEC)
+$(DATA): $(EXEC)
 	./$<
+
+$(MEDIA): $(SCRIPT) $(DATA)
+	$(PC) $(SCRIPT)
 
 clean:
 	$(RM) $(EXEC)
+	$(RM) $(DATA)
+	$(RM) $(MEDIA)
 
-.PHONY: all clean gotowe
+.PHONY: all clean
