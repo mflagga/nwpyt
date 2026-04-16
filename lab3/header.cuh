@@ -78,7 +78,7 @@ void system3(int *sys_mask, double *rho, int nx, int ny, double Lx, double Ly, d
 }
 
 __global__
-void GSrelaxHalf(int nx, int ny, int *sys_mask, double dx, double dy, double *v, double *rho, double V_brzegowe1, double V_brzegowe2, int zerolubjeden, double eps){
+void SOrelaxHalf(int nx, int ny, int *sys_mask, double dx, double dy, double *v, double *rho, double V_brzegowe1, double V_brzegowe2, int zerolubjeden, double eps, double omega){
     int idx = blockIdx.x*blockDim.x+threadIdx.x;
     int idy = blockIdx.y*blockDim.y+threadIdx.y;
     if (idx <= nx && idy <= ny){
@@ -88,9 +88,11 @@ void GSrelaxHalf(int nx, int ny, int *sys_mask, double dx, double dy, double *v,
             double inv_dx2=1.0/(dx*dx);
             double inv_dy2=1.0/(dy*dy);
             double diag=2.0*(inv_dx2+inv_dy2);
+            double vGS;
             switch(typ){
                 case typSrodek:
-                    v[p]=((v[p-ny-1]+v[p+ny+1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
+                    vGS=((v[p-ny-1]+v[p+ny+1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
+                    v[p]=(1.0-omega)*v[p]+omega*vGS;
                     break;
                 case typDirich1:
                     v[p] = V_brzegowe1;
@@ -100,33 +102,36 @@ void GSrelaxHalf(int nx, int ny, int *sys_mask, double dx, double dy, double *v,
                     break;
                 case typNeumann:
                     if (idx==0){
-                        v[p]=((2.0*v[p+ny+1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
+                        vGS=((2.0*v[p+ny+1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
                     }
                     else if(idx==nx){
-                        v[p]=((2.0*v[p-ny-1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
+                        vGS=((2.0*v[p-ny-1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
                     }
                     else if(idy==0){
-                        v[p]=((v[p+ny+1]+v[p-ny-1])*inv_dx2+(2.0*v[p+1])*inv_dy2+rho[p]/eps)/diag;
+                        vGS=((v[p+ny+1]+v[p-ny-1])*inv_dx2+(2.0*v[p+1])*inv_dy2+rho[p]/eps)/diag;
                     }
                     else if(idy==ny){
-                        v[p]=((v[p+ny+1]+v[p-ny-1])*inv_dx2+(2.0*v[p-1])*inv_dy2+rho[p]/eps)/diag;
+                        vGS=((v[p+ny+1]+v[p-ny-1])*inv_dx2+(2.0*v[p-1])*inv_dy2+rho[p]/eps)/diag;
                     }
+                    v[p]=(1.0-omega)*v[p]+omega*vGS;
                     break;
                 case typKarmann:
                     if (idx==0){
-                        v[p]=((v[nx*(ny+1)+idy]+v[p+ny+1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
+                        vGS=((v[nx*(ny+1)+idy]+v[p+ny+1])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
                     }
                     else if(idx==nx){
-                        v[p]=((v[p-ny-1]+v[idy])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
+                        vGS=((v[p-ny-1]+v[idy])*inv_dx2+(v[p-1]+v[p+1])*inv_dy2+rho[p]/eps)/diag;
                     }
+                    v[p]=(1.0-omega)*v[p]+omega*vGS;
+                    break;
             }
         }
     }
 }
 
-void GS_relax_full_once(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, double dx, double dy, double *v, double *rho, double V_brzegowe1, double V_brzegowe2, double eps){
-    GSrelaxHalf<<<grid2,block2>>>(nx,ny,sys_mask,dx,dy,v,rho,V_brzegowe1,V_brzegowe2,1,eps);
+void SO_relax_full_once(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, double dx, double dy, double *v, double *rho, double V_brzegowe1, double V_brzegowe2, double eps, double omega){
+    SOrelaxHalf<<<grid2,block2>>>(nx,ny,sys_mask,dx,dy,v,rho,V_brzegowe1,V_brzegowe2,1,eps,omega);
     cudaDeviceSynchronize();
-    GSrelaxHalf<<<grid2,block2>>>(nx,ny,sys_mask,dx,dy,v,rho,V_brzegowe1,V_brzegowe2,0,eps);
+    SOrelaxHalf<<<grid2,block2>>>(nx,ny,sys_mask,dx,dy,v,rho,V_brzegowe1,V_brzegowe2,0,eps,omega);
     cudaDeviceSynchronize();
 }
