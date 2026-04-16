@@ -2,3 +2,4 @@ nwenv/*
 *.out
 *.png
 *.csv
+./lab3/img
