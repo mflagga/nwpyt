@@ -156,12 +156,13 @@ void SO_relax_full_once(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, 
     cudaDeviceSynchronize();
 }
 
-void petla_relaksacyjna(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, double dx, double dy, double *v, double *rho, double V_brzegowe1, double V_brzegowe2, double eps, double omega, int co_ile, double tol){
+void petla_relaksacyjna(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, double dx, double dy, double *v, double *rho, double V_brzegowe1, double V_brzegowe2, double eps, double omega, int co_ile, double tol, double Lx, double Ly){
     double *blad; cudaMalloc(&blad, sizeof(double));
     double bladhost=0.0;
     int itmax=100000;
     bool licz_norme;
     auto t0 = chrono::high_resolution_clock::now();
+    printf("(Lx,Ly)=(%.2lf,%.2lf); (nx,ny)=(%d,%d); omega=%.2lf; tol=%.0e; ",Lx,Ly,nx,ny,omega,tol);
     for (int i=1;i<=itmax;i++){
         licz_norme = i%co_ile==0;
         if(licz_norme){
@@ -177,9 +178,9 @@ void petla_relaksacyjna(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, 
                 break;
             }
         }
-        if (i==itmax) cout<<"Osiegnieto itmax ";
+        if (i==itmax) cout<<"Osiegnieto itmax="<<itmax<<" ";
     }
     cudaFree(blad);
     auto t1 = chrono::high_resolution_clock::now();
-    cout<<"w czasie "<<chrono::duration_cast<chrono::milliseconds>(t1-t0).count()<<" ms\n";
+    cout<<"w czasie "<<chrono::duration_cast<chrono::milliseconds>(t1-t0).count()/1000.0<<" s\n";
 }

@@ -1,10 +1,9 @@
 #include "header.cuh"
 
 int main(){
-    srand(time(NULL));
     // parametry
-    int nx=64;
-    int ny=64;
+    int nx=256;
+    int ny=256;
     double L=5.0;
     double eps=1.0;
     double Lx=L;
@@ -15,9 +14,9 @@ int main(){
     int Ny=ny+1;
     int tp1=256;
     int tp2=8;
-    double R=1.0;
+    double R=0.1;
     double r=10.0;
-    double tol=1e-7;
+    double tol=1e-9;
     int co_ile=1000;
     double omega=1.9;
     dim3 block2 = dim3(tp2,tp2);
@@ -32,12 +31,12 @@ int main(){
     fill1D<<<(nx+tp1)/tp1,tp1>>>(x,nx,dx,-Lx/2);
     fill1D<<<(ny+tp1)/tp1,tp1>>>(y,ny,dy,-Ly/2);
     cudaDeviceSynchronize();
+
+    // układ pierwszy
     system1<<<grid2,block2>>>(sys_mask,rho,nx,ny,x,y,R,r);
-    system2<<<grid2,block2>>>(sys_mask,rho,nx,ny,r);
-    system3<<<grid2,block2>>>(sys_mask,rho,nx,ny,Lx,Ly,x,y,r);
     fill2DwithC<<<grid2,block2>>>(v,nx,ny,r/2);
     cudaDeviceSynchronize();
-    petla_relaksacyjna(block2,grid2,nx,ny,sys_mask,dx,dy,v,rho,-10.0,10.0,eps,omega,co_ile,tol);
+    petla_relaksacyjna(block2,grid2,nx,ny,sys_mask,dx,dy,v,rho,-10.0,10.0,eps,omega,co_ile,tol,Lx,Ly);
     double *vc = new double[Nx*Ny];
     cudaMemcpy(vc,v,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
     int *sys_maskc=new int[Nx*Ny];
@@ -50,6 +49,9 @@ int main(){
             fprintf(S1a,"%lf,%d,%lf\n",vc[i*Ny+j],sys_maskc[i*Ny+j],rhoc[i*Ny+j]);
         }
     }
+
+
+
     // czystki
     cudaFree(x);
     cudaFree(y);
