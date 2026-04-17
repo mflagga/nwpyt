@@ -17,8 +17,8 @@ EXEC = main.out
 SRCS = main.cu
 HDRS = header.cuh
 SCRIPT = plot.py
-DATA = S1a.csv
-MEDIA = img/S1mask.png
+DATA = S1a.csv S1misc.csv
+MEDIA = S1mask.png S1rho.png
 
 all: $(MEDIA)
 

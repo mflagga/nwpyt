@@ -8,9 +8,9 @@ using namespace std;
 
 #define typSrodek 0
 #define typDirich1 1
-#define typNeumann 2
-#define typKarmann 3
-#define typDirich2 4
+#define typDirich2 2
+#define typNeumann 3
+#define typKarmann 4
 
 __global__
 void fill1D(double *x, int n, double d, double xa){
