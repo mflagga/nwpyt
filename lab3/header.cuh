@@ -72,7 +72,10 @@ void system3(int *sys_mask, double *rho, int nx, int ny, double Lx, double Ly, d
         int p = idx*(ny+1)+idy;
         sys_mask[p]=typSrodek;
         if (idx==0 || idx==nx || idy==0 || idy==ny) sys_mask[p]=typNeumann;
-        sys_mask[0]=typDirich1; sys_mask[ny]=typDirich1; sys_mask[nx*(ny+1)]=typDirich1; sys_mask[nx*(ny+1)+ny]=typDirich1;
+        sys_mask[0]=typDirich1; 
+        sys_mask[ny]=typDirich1; 
+        sys_mask[nx*(ny+1)]=typDirich1; 
+        sys_mask[nx*(ny+1)+ny]=typDirich1;
         double a=Lx/10;
         double b=Lx/10;
         double c=Ly/4;
@@ -162,7 +165,7 @@ void petla_relaksacyjna(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, 
     int itmax=100000;
     bool licz_norme;
     auto t0 = chrono::high_resolution_clock::now();
-    printf("(Lx,Ly)=(%.2lf,%.2lf); (nx,ny)=(%d,%d); omega=%.2lf; tol=%.0e; ",Lx,Ly,nx,ny,omega,tol);
+    printf("(Lx,Ly)=(%.1lf,%.1lf); (nx,ny)=(%d,%d); omega=%.2lf; tol=%.0e; ",Lx,Ly,nx,ny,omega,tol);
     for (int i=1;i<=itmax;i++){
         licz_norme = i%co_ile==0;
         if(licz_norme){
@@ -174,13 +177,13 @@ void petla_relaksacyjna(dim3 block2, dim3 grid2, int nx, int ny, int *sys_mask, 
             cudaMemcpy(&bladhost,blad,sizeof(double),cudaMemcpyDeviceToHost);
             bladhost=sqrt(bladhost);
             if (bladhost<tol){
-                cout<<"Zbieglo sie w "<<i<<" iteracjach ";
+                cout<<"iteracje="<<i<<"; ";
                 break;
             }
         }
-        if (i==itmax) cout<<"Osiegnieto itmax="<<itmax<<" ";
+        if (i==itmax) cout<<"iteracje=itmax="<<itmax<<"; ";
     }
     cudaFree(blad);
     auto t1 = chrono::high_resolution_clock::now();
-    cout<<"w czasie "<<chrono::duration_cast<chrono::milliseconds>(t1-t0).count()/1000.0<<" s\n";
+    cout<<"czas="<<chrono::duration_cast<chrono::milliseconds>(t1-t0).count()/1000.0<<"s\n";
 }
