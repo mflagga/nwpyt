@@ -18,7 +18,7 @@ SRCS = main.cu
 HDRS = header.cuh
 SCRIPT = plot.py
 DATA = S1a.csv S1misc.csv S1rL.csv S3a.csv S3misc.csv S3r.csv S2a.csv S2misc.csv S2rV.csv
-MEDIA = S1mask.png S1rho.png S1V.png S1VrL.png S3mask.png S3rho.png S3V.png S3Vr.png S2mask.png S2rho.png S2V.png S2rV.png
+MEDIA = S1mask.png S1rho.png S1V.png S1rL.png S3mask.png S3rho.png S3V.png S3Vr.png S2mask.png S2rho.png S2V.png S2rV.png
 
 all: $(MEDIA)
 

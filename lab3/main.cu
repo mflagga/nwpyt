@@ -2,7 +2,7 @@
 
 int main(){
     // parametry
-    int n=pow(2,5)-1;
+    int n=pow(2,7)-1;
     int nx=n;
     int ny=n;
     double L=5.0;
@@ -42,18 +42,13 @@ int main(){
     cudaDeviceSynchronize();
     petla_relaksacyjna(block2,grid2,nx,ny,sys_mask,dx,dy,v,rho,VB1,VB2,eps,omega,co_ile,tol,Lx,Ly);
     double *vc = new double[Nx*Ny];
-    cudaMemcpy(vc,v,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
     int *sys_maskc=new int[Nx*Ny];
-    cudaMemcpy(sys_maskc,sys_mask,Nx*Ny*sizeof(int),cudaMemcpyDeviceToHost);
     double *rhoc=new double[Nx*Ny];
+    cudaMemcpy(vc,v,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
+    cudaMemcpy(sys_maskc,sys_mask,Nx*Ny*sizeof(int),cudaMemcpyDeviceToHost);
     cudaMemcpy(rhoc,rho,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
     FILE *S1misc=fopen("S1misc.csv","w");
     FILE *S1a=fopen("S1a.csv","w");
-    for (int i=0;i<=nx;i++){
-        for (int j=0;j<=ny;j++){
-            fprintf(S1a,"%lf,%d,%lf\n",vc[i*Ny+j],sys_maskc[i*Ny+j],rhoc[i*Ny+j]);
-        }
-    }
     fprintf(S1misc,"%d,%d,%lf,%lf,%lf,%lf",nx,ny,VB1,VB2,Lx,Ly);
     FILE *S1rL=fopen("S1rL.csv","w");
     double Lvals[] = {5.0, 10.0, 15.0, 20.0};
@@ -69,13 +64,20 @@ int main(){
         cudaDeviceSynchronize();
         petla_relaksacyjna(block2,grid2,nx,ny,sys_mask,dx,dy,v,rho,VB1,VB2,eps,omega,co_ile,tol,Lx,Ly);
         cudaMemcpy(vc,v,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
-        for (int i=0;i<=nx;i++){
-            for (int j=0;j<=ny;j++){
-                if (i!=0 || j!=0) fprintf(S1rL,",");
-                fprintf(S1rL,"%lf",vc[i*Ny+j]);
-            }
+        for (int j=0;j<=ny;j++){
+            if (j!=0) fprintf(S1rL,",");
+            fprintf(S1rL,"%lf",vc[(nx/2)*Ny+j]);
         }
         fprintf(S1rL,"\n");
+        if (L<Lvals[0]+0.01){
+            cudaMemcpy(sys_maskc,sys_mask,Nx*Ny*sizeof(int),cudaMemcpyDeviceToHost);
+            cudaMemcpy(rhoc,rho,Nx*Ny*sizeof(double),cudaMemcpyDeviceToHost);
+            for (int i=0;i<=nx;i++){
+                for (int j=0;j<=ny;j++){
+                    fprintf(S1a,"%lf,%d,%lf\n",vc[i*Ny+j],sys_maskc[i*Ny+j],rhoc[i*Ny+j]);
+                }
+            }
+        }
     }
 
     // uklad trzeci

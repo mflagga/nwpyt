@@ -53,29 +53,19 @@ plt.close()
 
 # mapa potencjalu dla roznych wartosci L
 Lvals = [5.0, 10.0, 15.0, 20.0]
-nx = int(S1misc[0])
-ny = int(S1misc[1])
-L0 = S1misc[4]
-fig, axes = plt.subplots(2, 2, figsize=(13, 10))
-# V0 = S1a[:,0].reshape((nx+1, ny+1)).T
-# im = axes[0,0].imshow(V0, origin='lower', cmap=vcmap,
-#                      extent=[-L0/2, L0/2, -L0/2, L0/2])
-# axes[0,0].set_title(rf'$V(x,y)$, $L={L0:.1f}$')
-# axes[0,0].set_xlabel(r'$x$')
-# axes[0,0].set_ylabel(r'$y$')
-# fig.colorbar(im, ax=axes[0,0])
-positions = [(0,0), (0,1), (1,0), (1,1)]
-for k, (L, pos) in enumerate(zip(Lvals, positions)):
-    VL = S1rL[:,k].reshape((nx+1, ny+1)).T
-    ax = axes[pos]
-    im = ax.imshow(VL, origin='lower', cmap=vcmap,
-                   extent=[-L/2, L/2, -L/2, L/2])
-    ax.set_title(rf'$V(x,y)$, $L={L:.1f}$')
-    ax.set_xlabel(r'$x$')
-    ax.set_ylabel(r'$y$')
-    fig.colorbar(im, ax=ax)
+nx1 = int(S1misc[0])
+ny1 = int(S1misc[1])
+plt.figure(figsize=(7.5,6))
+for k, L in enumerate(Lvals):
+    y = np.linspace(-L/2, L/2, ny1+1)
+    plt.plot(y, S1rL[:,k], label=rf'$L={L}$')
+plt.xlabel(rf'$y$')
+plt.ylabel(rf'$V(y)$')
+plt.title(rf'Profile potencjalu dla roznych $L$')
+plt.legend()
+plt.grid(ls=":")
 # plt.tight_layout()
-plt.savefig('S1VrL.png')
+plt.savefig('S1rL.png')
 plt.close()
 
 # wykresy ukladu 3
@@ -112,7 +102,6 @@ plt.savefig('S3V.png')
 plt.close()
 
 # rozne rho i V
-# mapa potencjalu dla roznych wartosci r i VB1 - uklad trzeci
 params = [(7, -10), (14, -10), (7, -20), (14, -20)]
 nx3 = int(S3misc[0])
 ny3 = int(S3misc[1])
@@ -143,11 +132,11 @@ for k, ((r, VB1), pos) in enumerate(zip(params, positions)):
     im = ax.imshow(V_data[k], origin='lower', cmap=vcmap,
                    extent=[-L3x/2, L3x/2, -L3y/2, L3y/2],
                    vmin=vmin, vmax=vmax)
-    ax.set_title(rf'$V(x,y)$, $r={r}$, $V_{{B1}}={VB1}$')
+    ax.set_title(rf'$V(x,y)$; $\varrho={r}$; $V^G={VB1}$')
     ax.set_xlabel(r'$x$')
     ax.set_ylabel(r'$y$')
     fig.colorbar(im, ax=ax)
-# plt.tight_layout()
+plt.tight_layout()
 plt.savefig('S3Vr.png')
 plt.close()
 
@@ -189,15 +178,14 @@ VB1vals = [-10.0, -15.0, -20.0, -25.0]
 ny2 = int(S2misc[1])
 L2y = S2misc[5]
 y = np.linspace(-L2y/2, L2y/2, ny2+1)
-
 plt.figure(figsize=(8,6))
 for k, VB1 in enumerate(VB1vals):
-    plt.plot(y, S2rV[k], label=rf'$V_{{B1}}={VB1}$')
-plt.xlabel(r'$y$')
-plt.ylabel(r'$V(x=0, y)$')
-plt.title(r'Przekroje potencjalu wzdluz $y$ przy $x=0$')
+    plt.plot(y, S2rV[k], label=rf'$V_d={VB1}$')
+plt.xlabel(rf'$y$')
+plt.ylabel(rf'$V(y)$')
+plt.title(rf'Profile potencjalu dla roznych $V_d$')
 plt.legend()
-plt.grid(alpha=0.3)
+plt.grid(ls=":")
 # plt.tight_layout()
 plt.savefig('S2rV.png')
 plt.close()
