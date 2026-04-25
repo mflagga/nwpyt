@@ -4,7 +4,11 @@ ifeq ($(OS),Windows_NT)
 	CFLAGS = -arch=native -O3
 	LIBS = 
 else
-	PC = python
+	ifdef VIRTUAL_ENV
+		PC = python
+	else 
+		PC = python3
+	endif
 	RM = rm -f
 	CFLAGS = -arch=native -Xcompiler -Wall,-Wextra -Werror all-warnings -O3
 	LIBS = -lm
