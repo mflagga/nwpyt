@@ -2,6 +2,7 @@ ifeq ($(OS),Windows_NT)
 	PC = python
 	RM = del /q
 	VR = echo "nie ma valgrinda na windowsie"
+	AVE = ../nwenv/Scripts/activate.ps1
 else
 	ifdef VIRTUAL_ENV
 		PC = python
@@ -10,6 +11,7 @@ else
 	endif
 	RM = rm -f
 	VR = valgrind ./$(EXEC)
+	AVE = source ../nwenv/bin/activate
 endif
 
 .SUFFIXES:
@@ -43,7 +45,10 @@ clean:
 safe: $(EXEC)
 	$(VR)
 
+ve: 
+	@echo "Run: $(AVE)"
+
 gotowe: $(EXEC)
 	./$(EXEC)
 
-.PHONY: all clean safe gotowe
+.PHONY: all clean safe gotowe ve
