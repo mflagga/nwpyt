@@ -2,7 +2,7 @@ ifeq ($(OS),Windows_NT)
 	PC = python
 	RM = del /q
 	VR = echo "nie ma valgrinda na windowsie"
-	AVE = ../nwenv/Scripts/activate.ps1
+	AVE = ../nwenv/Scripts/activate
 else
 	ifdef VIRTUAL_ENV
 		PC = python
@@ -23,7 +23,7 @@ SRCS = main.c
 HDRS = header.h
 EXEC = main.out
 SCRIPT = plot.py
-DATA = 
+DATA = p1.csv p1misc.csv
 MEDIA = 
 
 all: gotowe
@@ -46,7 +46,7 @@ safe: $(EXEC)
 	$(VR)
 
 ve: 
-	@echo "Run: $(AVE)"
+	@echo Run: $(AVE)
 
 gotowe: $(EXEC)
 	./$(EXEC)
