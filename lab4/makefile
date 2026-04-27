@@ -23,10 +23,12 @@ SRCS = main.c
 HDRS = header.h
 EXEC = main.out
 SCRIPT = plot.py
-DATA = p1.csv p1misc.csv
-MEDIA = 
+DATA = p1.csv p1misc.csv fpsfile.csv p2.csv p2gamma.csv
+FRAMES = p1frames/framesdone
+MEDIA = p1anim.mp4 p2anim.mp4
+FPS = $(shell cat fpsfile.csv)
 
-all: gotowe
+all: $(MEDIA)
 
 $(EXEC): $(SRCS) $(HDRS)
 	$(CXX) $(SRCS) $(CFLAGS) $(LIBS) -o $@
@@ -34,13 +36,23 @@ $(EXEC): $(SRCS) $(HDRS)
 $(DATA): $(EXEC)
 	./$<
 
-$(MEDIA): $(SCRIPT) $(DATA)
+$(FRAMES): $(SCRIPT) $(DATA)
+	$(RM) p1frames/*.png p1frames/framesdone
+	$(RM) p2frames/*.png
 	$(PC) $<
+	touch $@
+
+p1anim.mp4: $(FRAMES)
+	ffmpeg -framerate $(FPS) -i p1frames/frame_%04d.png -y -loglevel quiet -crf 18 p1anim.mp4
+
+p2anim.mp4: $(FRAMES)
+	ffmpeg -framerate $(FPS) -i p2frames/frame_%04d.png -y -loglevel quiet -crf 18 p2anim.mp4
 
 clean:
 	$(RM) $(EXEC)
 	$(RM) $(DATA)
 	$(RM) $(MEDIA)
+	$(RM) $(FRAMES) p1frames/*.png p2frames/*.png
 
 safe: $(EXEC)
 	$(VR)

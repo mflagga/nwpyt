@@ -107,3 +107,26 @@ void solve(cmp *psi, cmp *Gamma, int N, double hbar, double m ,double dx, double
     free(c);
     free(psi_uciete);
 }
+
+void initBarrier(cmp *Gamma, int n, double *x, double L, double a, cmp V0){
+    double start = 7.0+0.0*L;
+    for (int i=0;i<n;i++){
+        if (x[i]>start && x[i]<start+a){
+            Gamma[i]=V0;
+        }
+        else{
+            Gamma[i]=0.0;
+        }
+    }
+}
+
+void initWch(cmp *Gamma, int n, double *x, double xGamma, cmp V0){
+    for (int i=0;i<n;i++){
+        if (x[i]>xGamma){
+            Gamma[i]=-I*V0*(x[i]-xGamma)*(x[i]-xGamma);
+        }
+        else{
+            Gamma[i]=0.0;
+        }
+    }
+}
