@@ -16,7 +16,7 @@ int main(){
     double x0=5.0;
     double k0=sqrt(2.0*m*E)/hbar;
     double sigmak=0.2;
-    // double a=1.0;
+    double a=1.0;
     double V0=50.0;
     int frames = 75;
     int fps=frames/5;
@@ -88,6 +88,48 @@ int main(){
     FILE *p2gamma=fopen("p2gamma.csv","w");
     for (int i=0;i<=n;i++) fprintf(p2gamma,"%lf,%lf\n",creal(Gamma[i]),-cimag(Gamma[i]));
 
+    // punkt trzeci
+    FILE *p3=fopen("p3.csv","w");
+    a=0.07*L;
+    V0=50;
+    initBarrier(Gamma,N,x,L,a,V0);
+    E=V0/2;
+    k0=sqrt(2.0*m*E)/hbar;
+    initPsi(psi,n,nt,sigmak,x,x0,k0);
+    solve(psi,Gamma,N,hbar,m,dx,dt,Nt);
+    for (int i=0;i<=n;i++){
+        for (int p=0;p<=nt;p+=co_ktora){
+            if (p!=0 || i!=0) fprintf(p3,",");
+            fprintf(p3,"%lf",pow(cabs(psi[i*Nt+p]),2));
+        }
+    }
+    fprintf(p3,"\n");
+    E*=2;
+    k0=sqrt(2.0*m*E)/hbar;
+    initPsi(psi,n,nt,sigmak,x,x0,k0);
+    solve(psi,Gamma,N,hbar,m,dx,dt,Nt);
+    for (int i=0;i<=n;i++){
+        for (int p=0;p<=nt;p+=co_ktora){
+            if (p!=0 || i!=0) fprintf(p3,",");
+            fprintf(p3,"%lf",pow(cabs(psi[i*Nt+p]),2));
+        }
+    }
+    fprintf(p3,"\n");
+    E*=2;
+    k0=sqrt(2.0*m*E)/hbar;
+    initPsi(psi,n,nt,sigmak,x,x0,k0);
+    solve(psi,Gamma,N,hbar,m,dx,dt,Nt);
+    for (int i=0;i<=n;i++){
+        for (int p=0;p<=nt;p+=co_ktora){
+            if (p!=0 || i!=0) fprintf(p3,",");
+            fprintf(p3,"%lf",pow(cabs(psi[i*Nt+p]),2));
+        }
+    }
+    fprintf(p3,"\n");
+
+    FILE *p3gamma=fopen("p3gamma.csv","w");
+    for (int i=0;i<=n;i++) fprintf(p3gamma,"%lf,%lf\n",creal(Gamma[i]),-cimag(Gamma[i]));
+    
 
 
 
@@ -100,6 +142,8 @@ int main(){
     fclose(p1misc);
     fclose(p2);
     fclose(p2gamma);
+    fclose(p3);
+    fclose(p3gamma);
     // return zero
     return 0;
 }

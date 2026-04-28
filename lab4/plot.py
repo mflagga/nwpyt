@@ -4,6 +4,7 @@ import os
 
 os.makedirs("p1frames", exist_ok=True)
 os.makedirs("p2frames", exist_ok=True)
+os.makedirs("p3frames", exist_ok=True)
 
 # wczytanie danych
 p1misc = np.loadtxt('p1misc.csv',delimiter=',')
@@ -24,8 +25,14 @@ p2_psi = p2.reshape(N,Nt).T
 
 p2gamma=np.loadtxt("p2gamma.csv",delimiter=',')
 
+p3 = np.loadtxt('p3.csv',delimiter=',')
+p3_psi1 = p3[0].reshape(N, Nt).T
+p3_psi2 = p3[1].reshape(N, Nt).T
+p3_psi3 = p3[2].reshape(N, Nt).T
+
 x=np.linspace(0,L,N)
 psimax = max(p1_psi1.max(), p1_psi2.max(), p1_psi3.max())
+psimax3 = max(p3_psi1.max(), p3_psi2.max(), p3_psi3.max())
 
 # animacja pierwsza
 plt.figure(figsize=(8,8))
@@ -52,5 +59,19 @@ for p in range(Nt):
     plt.xlim(0,L)
     plt.legend()
     plt.savefig(f"./p2frames/frame_{p:04d}.png")
+    plt.clf()
+plt.close()
+
+# animacja trzecia
+plt.figure(figsize=(8,8))
+for p in range(Nt):
+    plt.plot(x,p3_psi1[p])
+    plt.plot(x,p3_psi2[p])
+    plt.plot(x,p3_psi3[p])
+    # plt.legend()
+    plt.title(rf"$t={p*dt:.3f}$")
+    plt.ylim(0,psimax3)
+    plt.xlim(0,L)
+    plt.savefig(f"./p3frames/frame_{p:04d}.png")
     plt.clf()
 plt.close()

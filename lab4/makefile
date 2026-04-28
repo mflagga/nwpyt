@@ -23,7 +23,7 @@ SRCS = main.c
 HDRS = header.h
 EXEC = main.out
 SCRIPT = plot.py
-DATA = p1.csv p1misc.csv fpsfile.csv p2.csv p2gamma.csv
+DATA = p1.csv p1misc.csv fpsfile.csv p2.csv p2gamma.csv p3.csv p3gamma.csv
 FRAMES = p1frames/framesdone
 MEDIA = p1anim.mp4 p2anim.mp4
 FPS = $(shell cat fpsfile.csv)
@@ -52,7 +52,7 @@ clean:
 	$(RM) $(EXEC)
 	$(RM) $(DATA)
 	$(RM) $(MEDIA)
-	$(RM) $(FRAMES) p1frames/*.png p2frames/*.png
+	$(RM) $(FRAMES) p1frames/*.png p2frames/*.png p3frames/*.png
 
 safe: $(EXEC)
 	$(VR)

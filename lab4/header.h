@@ -109,7 +109,7 @@ void solve(cmp *psi, cmp *Gamma, int N, double hbar, double m ,double dx, double
 }
 
 void initBarrier(cmp *Gamma, int n, double *x, double L, double a, cmp V0){
-    double start = 7.0+0.0*L;
+    double start = 8.0+0.0*L;
     for (int i=0;i<n;i++){
         if (x[i]>start && x[i]<start+a){
             Gamma[i]=V0;
