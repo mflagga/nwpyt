@@ -18,7 +18,7 @@ int main(){
     double sigmak=0.2;
     double a=1.0;
     double V0=50.0;
-    int frames = 75;
+    int frames = 150;
     int fps=frames/5;
     int co_ktora=nt/frames;
     // alokacje inicjalizacje
@@ -90,7 +90,9 @@ int main(){
 
     // punkt trzeci
     FILE *p3=fopen("p3.csv","w");
+    FILE *p3misc=fopen("p3misc.csv","w");
     a=0.07*L;
+    x0=3.0;
     V0=50;
     initBarrier(Gamma,N,x,L,a,V0);
     E=V0/2;
@@ -104,6 +106,7 @@ int main(){
         }
     }
     fprintf(p3,"\n");
+    fprintf(p3misc,"%lf,%lf",creal(V0),E);
     E*=2;
     k0=sqrt(2.0*m*E)/hbar;
     initPsi(psi,n,nt,sigmak,x,x0,k0);
@@ -115,6 +118,7 @@ int main(){
         }
     }
     fprintf(p3,"\n");
+    fprintf(p3misc,",%lf",E);
     E*=2;
     k0=sqrt(2.0*m*E)/hbar;
     initPsi(psi,n,nt,sigmak,x,x0,k0);
@@ -126,6 +130,7 @@ int main(){
         }
     }
     fprintf(p3,"\n");
+    fprintf(p3misc,",%lf",E);
 
     FILE *p3gamma=fopen("p3gamma.csv","w");
     for (int i=0;i<=n;i++) fprintf(p3gamma,"%lf,%lf\n",creal(Gamma[i]),-cimag(Gamma[i]));
@@ -144,6 +149,7 @@ int main(){
     fclose(p2gamma);
     fclose(p3);
     fclose(p3gamma);
+    fclose(p3misc);
     // return zero
     return 0;
 }
