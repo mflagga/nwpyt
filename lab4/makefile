@@ -55,7 +55,7 @@ p3anim.mp4: $(FRAMES)
 clean:
 	$(RM) $(EXEC)
 	$(RM) $(DATA)
-# 	$(RM) $(MEDIA)
+	$(RM) $(MEDIA)
 	$(RM) $(FRAMES) p1frames/*.png p2frames/*.png p3frames/*.png
 
 safe: $(EXEC)
