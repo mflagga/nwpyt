@@ -23,8 +23,8 @@ SRCS = main.c
 HDRS = header.h
 EXEC = main.out
 SCRIPT = plot.py
-DATA = psifile.csv
-MEDIA = psi.png
+DATA = p1psi.csv p1E.csv
+MEDIA = p1psi.png p1E.png
 
 all: $(MEDIA)
 

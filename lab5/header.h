@@ -48,3 +48,9 @@ void initBarrier(cmp *V, double *x, int n, double start, double szerokosc, cmp V
         else V[i]=0.0;
     }
 }
+
+double TodE(double E, cmp *psi, cmp *V, int N, double t, double a, double m, double hbar){
+    double k=sqrtf(2.0*m*E)/hbar;
+    solve(psi,V,N,t,E,k,a);
+    return pow(cabs(psi[N-1]),2);
+}
