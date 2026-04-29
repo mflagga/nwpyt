@@ -1,0 +1,4 @@
+50 nm calosci ukladu
+jednostki fizyczne
+szerokosc bariery 5-10 nm
+wysokosc w eV : 0.02eV
