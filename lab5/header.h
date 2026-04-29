@@ -24,3 +24,27 @@ void thomas(cmp *b, cmp *ac, int n, cmp *d, cmp *x){
     free(cprim);
     free(dprim);
 }
+
+void solve(cmp *psi, cmp *V, int N, double t, double E, double k, double a){
+    cmp *b = calloc(N,sizeof(cmp));
+    cmp *ac = calloc(N,sizeof(cmp));
+    for (int i=0;i<N;i++){
+        b[i]=2*t+V[i]-E;
+    }
+    b[0] += -t*cexp(I*k*a);
+    b[N-1] += -t*cexp(I*k*a);
+    for (int i=0;i<N;i++) ac[i]=-t;
+    cmp *s = calloc(N,sizeof(cmp));
+    s[0]=t*(1.0-cexp(2.0*I*k*a));
+    thomas(b,ac,N,s,psi);
+    free(s);
+    free(ac);
+    free(b);
+}
+
+void initBarrier(cmp *V, double *x, int n, double start, double szerokosc, cmp V0){
+    for (int i=0;i<=n;i++){
+        if (x[i] >= start && x[i] <= start + szerokosc) V[i] = V0;
+        else V[i]=0.0;
+    }
+}
