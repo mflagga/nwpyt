@@ -46,7 +46,7 @@ safe: $(EXEC)
 	$(VR)
 
 ve: 
-	@echo Run: $(AVE)
+	@echo $(AVE)
 
 gotowe: $(EXEC)
 	./$(EXEC)
