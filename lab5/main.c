@@ -9,7 +9,7 @@ int main(){
     double L=50.0;
     int n=1000;
     cmp V0=0.02;
-    double E=0.034333;
+    double E=0.034333; // energia rezonansu dla ukl pierwszego
     int nE=1000;
     double LE=5*V0;
 

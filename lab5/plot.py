@@ -18,6 +18,9 @@ p2_T = p2E[:,1]
 p3_E = p3E[:,0]
 p3_T = p3E[:,1]
 
+# ==1==
+
+# psi(x)
 plt.figure(figsize=(8,8))
 plt.plot(x,p1_psi,label=rf'$|\Psi|^2$')
 for i in range(len(x)-1):
@@ -27,6 +30,7 @@ plt.tight_layout()
 plt.savefig("p1psi.png")
 plt.close()
 
+# T(E)
 plt.figure(figsize=(8,8))
 plt.axvline(p1V0, ls="--",color="black",label=rf'$V_0$')
 plt.plot(p1_E,p1_T)
@@ -38,6 +42,9 @@ plt.tight_layout()
 plt.savefig("p1E.png")
 plt.close()
 
+# ==2==
+
+# T(E)
 plt.figure(figsize=(8,8))
 plt.plot(p2_E,p2_T)
 plt.xlabel(rf'$E\ [eV]$')
@@ -49,6 +56,9 @@ plt.tight_layout()
 plt.savefig("p2E.png")
 plt.close()
 
+# ==3==
+
+# T(E)
 plt.figure(figsize=(8,8))
 plt.axvline(p1V0, ls="--",color="black",label=rf'$V_0$')
 plt.plot(p3_E,p3_T)
