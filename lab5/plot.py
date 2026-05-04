@@ -7,7 +7,7 @@ def wczytaj(*nazwy): # funkcja do wczytywania plikow od clauda
         globals()[nazwa] = np.loadtxt(nazwa + ".csv", delimiter=',')
 
 # wczytanie danych
-wczytaj("p1psi", "p1E", "p1V", "p2E", "p3E")
+wczytaj("p1psi", "p1E", "p1V", "p2E", "p3E", "p3psi")
 x = p1psi[:,0]
 p1_psi = p1psi[:,1]
 p1_E = p1E[:,0]
@@ -17,6 +17,8 @@ p2_E = p2E[:,0]
 p2_T = p2E[:,1]
 p3_E = p3E[:,0]
 p3_T = p3E[:,1]
+p3_psi = p3psi[:,0]
+p3_V = p3psi[:,1]
 
 # ==1==
 
@@ -24,7 +26,7 @@ p3_T = p3E[:,1]
 plt.figure(figsize=(8,8))
 plt.plot(x,p1_psi,label=rf'$|\Psi|^2$')
 for i in range(len(x)-1):
-    plt.axvspan(x[i],x[i+1],color="black",alpha=p1V[i]/(np.max(p1V)),lw=0)
+    plt.axvspan(x[i],x[i+1],color="black",alpha=0.5*p1V[i]/(np.max(p1V)),lw=0)
 plt.legend()
 plt.tight_layout()
 plt.savefig("p1psi.png")
@@ -68,4 +70,14 @@ plt.legend()
 plt.tight_layout()
 plt.grid(ls=':')
 plt.savefig("p3E.png")
+plt.close()
+
+# psi(x)
+plt.figure(figsize=(8,8))
+plt.plot(x,p3_psi,label=rf'$|\Psi|^2$')
+for i in range(len(x)-1):
+    plt.axvspan(x[i],x[i+1],color="black",alpha=0.5*p3_V[i]/(np.max(p3_V)),lw=0)
+plt.legend()
+plt.tight_layout()
+plt.savefig("p3psi.png")
 plt.close()

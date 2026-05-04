@@ -73,12 +73,21 @@ int main(){
     }
     fclose(p3E);
 
+    E=0.08;
+    k=sqrt(2.0*m*E)/hbar;
+    solve(psi,V,N,t,E,k,a);
+    FILE *p3psi=fopen("p3psi.csv","w");
+    for (int i=0;i<=n;i++){
+        fprintf(p3psi,"%lf,%lf\n",pow(cabs(psi[i]),2),creal(V[i]));
+    }
+
     // czystki
     free(psi);
     free(V);
     free(x);
     fclose(p1psi);
     fclose(p1E);
+    fclose(p3psi);
 
     // return zero
     return 0;
