@@ -7,7 +7,7 @@ def wczytaj(*nazwy): # funkcja do wczytywania plikow od clauda
         globals()[nazwa] = np.loadtxt(nazwa + ".csv", delimiter=',')
 
 # wczytanie danych
-wczytaj("p1psi", "p1E", "p1V", "p2E", "p3E", "p3psi")
+wczytaj("p1psi", "p1E", "p1V", "p2E", "p3E", "p3psi", "p2psi")
 x = p1psi[:,0]
 p1_psi = p1psi[:,1]
 p1_E = p1E[:,0]
@@ -19,6 +19,8 @@ p3_E = p3E[:,0]
 p3_T = p3E[:,1]
 p3_psi = p3psi[:,0]
 p3_V = p3psi[:,1]
+p2_psi = p2psi[:,0]
+p2_V = p2psi[:,1]
 
 # ==1==
 
@@ -57,6 +59,17 @@ plt.ylabel(rf'T(E)')
 plt.grid(ls=':')
 plt.tight_layout()
 plt.savefig("p2E.png")
+plt.close()
+
+# psi(x)
+plt.figure(figsize=(8,8))
+plt.plot(x,p2_psi,label=rf'$|\Psi|^2$')
+for i in range(len(x)-1):
+    plt.axvspan(x[i],x[i+1],color="black",alpha=0.5*p2_V[i]/(np.max(p2_V)),lw=0)
+plt.legend()
+plt.grid(ls=':')
+plt.tight_layout()
+plt.savefig("p2psi.png")
 plt.close()
 
 # ==3==

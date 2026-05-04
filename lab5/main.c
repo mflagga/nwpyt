@@ -54,7 +54,7 @@ int main(){
     }
 
     // bariera gaussowska
-    initGauss(V,n,L/2,L/5,x);
+    initGauss(V,n,L/2,L/7,x);
     FILE *p2E=fopen("p2E.csv","w");
     for (int i=0;i<nE;i++){
         E=(i+1)*dE;
@@ -62,6 +62,15 @@ int main(){
         fprintf(p2E,"%lf,%lf\n",E,T);
     }
     fclose(p2E);
+
+    // zapisanie psi i V
+    E=0.7;
+    k=sqrt(2.0*m*E)/hbar;
+    solve(psi,V,N,t,E,k,a);
+    FILE *p2psi=fopen("p2psi.csv","w");
+    for (int i=0;i<=n;i++){
+        fprintf(p2psi,"%lf,%lf\n",pow(cabs(psi[i]),2),creal(V[i]));
+    }
 
     // dwie bariery
     initDwieBar(V,n,L/2,L/10,L/5,V0,x);
@@ -73,6 +82,7 @@ int main(){
     }
     fclose(p3E);
 
+    // zapisanie psi i V dla energii rez
     E=0.08;
     k=sqrt(2.0*m*E)/hbar;
     solve(psi,V,N,t,E,k,a);
@@ -88,6 +98,7 @@ int main(){
     fclose(p1psi);
     fclose(p1E);
     fclose(p3psi);
+    fclose(p2psi);
 
     // return zero
     return 0;
