@@ -17,16 +17,16 @@ endif
 .SUFFIXES:
 
 CXX = gcc
-LIBS = -lm
+LIBS = -lm -lgsl -lgslcblas
 CFLAGS = -Wall -Wextra -Werror -Wpedantic -O3
 SRCS = main.c
 HDRS = header.h
 EXEC = main.out
 SCRIPT = plot.py
-DATA = 
-MEDIA = 
+DATA = Vmap.csv misc.csv
+MEDIA = Vmap.png
 
-all: gotowe
+all: $(MEDIA)
 
 $(EXEC): $(SRCS) $(HDRS)
 	$(CXX) $(SRCS) $(CFLAGS) $(LIBS) -o $@
