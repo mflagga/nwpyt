@@ -23,8 +23,8 @@ SRCS = main.c
 HDRS = header.h
 EXEC = main.out
 SCRIPT = plot.py
-DATA = Vmap.csv misc.csv
-MEDIA = Vmap.png
+DATA = Vmap.csv misc.csv Vnmap.csv Gfile.csv
+MEDIA = Vmap.png Vnmap.png Gfile.png
 
 all: $(MEDIA)
 

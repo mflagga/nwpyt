@@ -3,7 +3,7 @@ zapisac tylko wartosci wlasne
 dla kazdego x mamy zestaw wartosci wlasnych
 E = (liczba energii(ny)) x (nx)
 # poziomy energii dla danego x powinny wygladac jak sinus
-kazdy wiersz o dlugosc nx traktuje jak potencjal dla metody qtbm
+kazdy wiersz o dlugosci nx traktuje jak potencjal dla metody qtbm
 dla kazdego wiersza rozwiazuje uklad wielokrotnie qbtm dla roznych energii
-sumuje transmitancje po wierszach dla danej energii uzyskujac ogolna transmitacnje dla tej energii
+sumuje transmitancje po wierszach dla danej energii uzyskujac ogolna transmitancje dla tej energii
 mam wszystkie T_n wiec moge zastosowac wzor landauera
