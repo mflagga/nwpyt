@@ -1,6 +1,9 @@
 # pyright: reportUndefinedVariable=false
 import numpy as np
 import matplotlib.pyplot as plt
+import time
+
+t0 =time.time()
 
 def wczytaj(*nazwy): # funkcja do wczytywania plikow od clauda
     for nazwa in nazwy:
@@ -49,3 +52,6 @@ plt.grid(ls=":")
 plt.tight_layout()
 plt.savefig("Gfile.png")
 plt.close()
+
+t1=time.time()
+print(f'Czas wykreslania: {t1-t0:.4f}s')

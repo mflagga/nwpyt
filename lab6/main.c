@@ -46,12 +46,15 @@ int main(){
     fprintf(misc,"%lf,%lf,%d,%d",Lx,Ly,nx,ny);
 
     // obliczanie nowego potencjalu 
+    clock_t t0=clock();
     double *Vn=malloc((nx+1)*(ny-1)*sizeof(double));
     double *evals=malloc((ny-1)*sizeof(double));
     for (int i=0;i<=nx;i++){
         diagYslice(i,V,ny,evals,ty);
         for (int j=0;j<ny-1;j++) Vn[i*(ny-1)+j]=evals[j];
     }
+    clock_t t1=clock();
+    printf("Wszystkie (ny=%d) diagonalizacje w czasie %.4lfs\n",ny,(double)(t1-t0)/CLOCKS_PER_SEC);
 
     // zapisanie potencjału nowego
     FILE *Vnmap=fopen("Vnmap.csv","w");
@@ -63,6 +66,7 @@ int main(){
     }
 
     // rozwiazanie metoda qtbm
+    clock_t t2=clock();
     double *Vr=malloc((nx+1)*sizeof(double));
     cmp *psi=malloc((nx+1)*sizeof(cmp));
     double *T=malloc(nE*(ny-1)*sizeof(double));
@@ -81,6 +85,8 @@ int main(){
         }
         // G[l] *= e*e/(M_PI*hbar);
     }
+    clock_t t3=clock();
+    printf("Wyznaczenie G metodą QTBM w czasie %.4lfs\n",(double)(t3-t2)/CLOCKS_PER_SEC);
 
     // zapis konduktacji od energii
     FILE *Gfile=fopen("Gfile.csv","w");
