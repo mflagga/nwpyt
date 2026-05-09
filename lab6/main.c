@@ -10,12 +10,12 @@ int main(){
     // parametry układu
     double Lx=60.0;
     double Ly=25.0;
-    int nx=720;
-    int ny=300;
+    int nx=600;
+    int ny=250;
     double V0=0.2;
-    double alpha=0.5;
+    double alpha=0.25;
     double LE=5*V0;
-    int nE=150;
+    int nE=175;
 
     // parametry wtórne
     double dx=Lx/nx;

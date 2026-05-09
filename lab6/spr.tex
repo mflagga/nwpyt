@@ -41,13 +41,13 @@ urlcolor=red
 
 Napisano funkcję \texttt{diagYslice}, która zwracała wektor wartości własnych Hamiltonianu układu jednowymiarowego będącego przekrojem głównego układu dla ustalonego \texttt{x[i]}. W tym celu skorzystano z biblioteki \texttt{GSL} i jej funkcji \texttt{gsl\_eigen\_symm} oraz \texttt{gsl\_sort\_vector}. Po zdiagonalizowaniu hamiltonianu dla każdego przekroju użyto funkcji napisanych tydzień temu, które rozwiązują układ metodą QTBM. Techniczny przebieg kodu:
 \begin{lstlisting}
-maciej@ThinkPadT490:~/kod/sem6/uklnw/lab6$ make
+(nwenv) maciej@konkuter:~/kod/sem6/uklnw/lab6$ make
 gcc main.c -Wall -Wextra -Werror -Wpedantic -O3 -lm -lgsl -lgslcblas -o main.out
 ./main.out
-Wszystkie (nx=720) diagonalizacje w czasie 1.3539s
-Wyznaczenie G metoda QTBM w czasie 1.4036s
-python3 plot.py
-Czas wykreslania: 0.9514s
+Wszystkie (nx=600) diagonalizacje w czasie 0.6403s
+Wyznaczenie G metoda QTBM w czasie 0.8666s
+python plot.py
+Czas wykreslania: 0.7447s
 \end{lstlisting}
 
 \subsection{Wykresy}
