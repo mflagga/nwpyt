@@ -44,7 +44,7 @@ plt.savefig("Vnmap.png")
 plt.close()
 
 plt.figure(figsize=(6,6))
-plt.plot(E,G)
+plt.plot(E,G,c='k')
 plt.xlabel(rf'$E\ [eV]$')
 plt.ylabel(rf'Znormalizowna konduktancja $\frac{{G}}{{G_0}}$')
 plt.grid(ls=":")
