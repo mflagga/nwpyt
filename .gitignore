@@ -4,3 +4,5 @@ nwenv/*
 *.csv
 *.mp4
 *.txt
+/.vscode/*
+**/build/
