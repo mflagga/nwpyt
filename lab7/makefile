@@ -31,8 +31,8 @@ SCRIPT = plot.py
 TEX = spr.tex
 EXEC = main.out
 REPORT = sprawozdanie.pdf
-DATA = mp.csv misc.csv
-MEDIA = mp.png
+DATA = mp.csv misc.csv rsV.csv
+MEDIA = mp.png rsV.png
 
 all: $(REPORT)
 

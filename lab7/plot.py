@@ -10,7 +10,7 @@ def wczytaj(*nazwy): # funkcja do wczytywania plikow od clauda
         globals()[nazwa] = np.loadtxt(nazwa + ".csv", delimiter=',')
 
 # wczytanie plików
-wczytaj("mp","misc")
+wczytaj("mp","misc","rsV")
 N=int(misc[0])
 Nk=int(misc[1])
 a=misc[2]
@@ -28,3 +28,8 @@ plt.ylabel(r"Energia $E$")
 plt.grid(ls=":")
 plt.tight_layout()
 plt.savefig("mp.png")
+
+plt.figure(figsize=(8,8))
+plt.plot(rsV[:,0],rsV[:,1])
+plt.tight_layout()
+plt.savefig("rsV.png",dpi=150)

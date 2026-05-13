@@ -47,8 +47,12 @@ int main(){
         }
     }
 
+    FILE *rsV=fopen("rsV.csv","w");
+
+
     FILE *misc=fopen("misc.csv","w");
     fprintf(misc,"%d,%d,%lf",N,Nk,a);
+    for (int i=0;i<N;i++) fprintf(rsV,"%lf,%lf\n",x[i],V[i]);
 
     // czystki
     free(x);
@@ -57,6 +61,7 @@ int main(){
     free(ev);
     fclose(mp);
     fclose(misc);
+    fclose(rsV);
 
     // return zero
     return 0;
