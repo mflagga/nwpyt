@@ -12,6 +12,7 @@
 void initV(double *V, int N, double V0, double w, double *x){
     for (int i=0;i<N;i++){
         if (x[i]>=-w/2 && x[i]<=w/2) V[i]=-fabs(V0);
+        else V[i]=0.0;
     }
 }
 
@@ -45,6 +46,40 @@ void diagHdlaK(double k, size_t N, double dx, double t, double *V, double *ev){
     }
     gsl_vector_free(eval);
     gsl_matrix_complex_free(H);
+}
+
+void diagStud(size_t N, double t, double *V, double *E, double *phi){
+    // maceirz
+    gsl_matrix *H=gsl_matrix_calloc(N,N);
+    for (size_t j=0;j<N;j++){
+        gsl_matrix_set(H,j,j,2.0*t+V[j]);
+        if (j!=N-1){
+            gsl_matrix_set(H,j+1,j,-t);
+            gsl_matrix_set(H,j,j+1,-t);
+        }
+    }
+    // alokacja roz
+    gsl_vector *evals=gsl_vector_alloc(N);
+    gsl_matrix *evecs=gsl_matrix_alloc(N,N);
+    // rozwiazanie
+    gsl_eigen_symmv_workspace *w=gsl_eigen_symmv_alloc(N);
+    gsl_eigen_symmv(H,evals,evecs,w);
+    gsl_eigen_symmv_free(w);
+    gsl_eigen_symmv_sort(evals,evecs,GSL_EIGEN_SORT_VAL_ASC);
+    // zapisanie
+    *E=gsl_vector_get(evals,0);
+    double norm=0.0;
+    for (size_t j=0;j<N;j++){
+        phi[j]=gsl_matrix_get(evecs,j,0);
+        norm += pow(fabs(phi[j]),2);
+    }
+    norm = 1.0/sqrt(norm);
+    for (size_t j=0;j<N;j++) phi[j] *= norm;
+
+    // czystki
+    gsl_matrix_free(H);
+    gsl_matrix_free(evecs);
+    gsl_vector_free(evals);
 }
 
 // wektor x dlugosci tylko n bo punkt n+1 == punkt 0 - to jest zawarte w macierzy

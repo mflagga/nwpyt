@@ -10,23 +10,21 @@ int main(){
     double a=1.0;
     double V0=100.0;
     int N=200;
-    int Nk=20;
+    int Nk=30;
 
     // parametry wtórne
     double w=a/2;
-    // double xa=-2*a;
-    // double xb=3*a;
     double dx=a/N;
     double t=hbar*hbar/(2.0*m*dx*dx);
     double dk=2.0*M_PI/(a*Nk);
 
     // alokacje inicjalizacje
     double *x=malloc(N*sizeof(double));
-    for (int i=0;i<=N;i++) x[i]=-a/2+i*dx;
-    double *V=calloc(N,sizeof(double));
+    for (int i=0;i<N;i++) x[i]=-a/2+i*dx;
+    double *V=malloc(N*sizeof(double));
     initV(V,N,V0,w,x);
 
-    // rozwiazanie 1
+    // rozwiazanie RS
     double *macierzPasmowa=malloc(N*(Nk+1)*sizeof(double));
     double *ev=malloc(N*sizeof(double));
     double k;
@@ -48,11 +46,24 @@ int main(){
     }
 
     FILE *rsV=fopen("rsV.csv","w");
-
+    for (int i=0;i<N;i++) fprintf(rsV,"%lf,%lf\n",x[i],V[i]);
 
     FILE *misc=fopen("misc.csv","w");
     fprintf(misc,"%d,%d,%lf",N,Nk,a);
-    for (int i=0;i<N;i++) fprintf(rsV,"%lf,%lf\n",x[i],V[i]);
+
+    // metoda TBA
+    double xa=-2*a;
+    double xb=3*a;
+    dx=(xb-xa)/(N-1);
+    t=hbar*hbar/(2.0*m*dx*dx);
+    for (int i=0;i<N;i++) x[i] = xa+i*dx;
+    initV(V,N,V0,w,x);
+    double E;
+    double *phi=malloc(N*sizeof(double));
+    diagStud(N,t,V,&E,phi);
+
+    FILE *tbaV=fopen("tbaV.csv","w");
+    for (int i=0;i<N;i++) fprintf(tbaV,"%lf,%lf,%lf\n",x[i],V[i],pow(fabs(phi[i]),2));
 
     // czystki
     free(x);
@@ -62,6 +73,8 @@ int main(){
     fclose(mp);
     fclose(misc);
     fclose(rsV);
+    fclose(tbaV);
+    free(phi);
 
     // return zero
     return 0;

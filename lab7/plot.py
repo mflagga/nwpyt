@@ -10,7 +10,7 @@ def wczytaj(*nazwy): # funkcja do wczytywania plikow od clauda
         globals()[nazwa] = np.loadtxt(nazwa + ".csv", delimiter=',')
 
 # wczytanie plików
-wczytaj("mp","misc","rsV")
+wczytaj("mp","misc","rsV","tbaV")
 N=int(misc[0])
 Nk=int(misc[1])
 a=misc[2]
@@ -33,3 +33,9 @@ plt.figure(figsize=(8,8))
 plt.plot(rsV[:,0],rsV[:,1])
 plt.tight_layout()
 plt.savefig("rsV.png",dpi=150)
+
+plt.figure(figsize=(8,8))
+plt.plot(tbaV[:,0],tbaV[:,1])
+plt.plot(tbaV[:,0],tbaV[:,2])
+plt.tight_layout()
+plt.savefig("tbaV.png",dpi=150)
