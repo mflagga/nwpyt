@@ -48,7 +48,7 @@ void diagHdlaK(double k, size_t N, double dx, double t, double *V, double *ev){
     gsl_matrix_complex_free(H);
 }
 
-void diagStud(size_t N, double t, double *V, double *E, double *phi){
+void diagStud(size_t N, double t, double *V, double *E, double *phi, double dx){
     // maceirz
     gsl_matrix *H=gsl_matrix_calloc(N,N);
     for (size_t j=0;j<N;j++){
@@ -71,7 +71,7 @@ void diagStud(size_t N, double t, double *V, double *E, double *phi){
     double norm=0.0;
     for (size_t j=0;j<N;j++){
         phi[j]=gsl_matrix_get(evecs,j,0);
-        norm += pow(fabs(phi[j]),2);
+        norm += pow(fabs(phi[j]),2)*dx;
     }
     norm = 1.0/sqrt(norm);
     for (size_t j=0;j<N;j++) phi[j] *= norm;

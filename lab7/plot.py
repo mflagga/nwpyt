@@ -10,7 +10,7 @@ def wczytaj(*nazwy): # funkcja do wczytywania plikow od clauda
         globals()[nazwa] = np.loadtxt(nazwa + ".csv", delimiter=',')
 
 # wczytanie plików
-wczytaj("mp","misc","rsV","tbaV")
+wczytaj("mp","misc","rsV","tbaV","tbaE")
 N=int(misc[0])
 Nk=int(misc[1])
 a=misc[2]
@@ -28,14 +28,26 @@ plt.ylabel(r"Energia $E$")
 plt.grid(ls=":")
 plt.tight_layout()
 plt.savefig("mp.png")
+plt.close()
 
 plt.figure(figsize=(8,8))
 plt.plot(rsV[:,0],rsV[:,1])
 plt.tight_layout()
 plt.savefig("rsV.png",dpi=150)
+plt.close()
 
 plt.figure(figsize=(8,8))
-plt.plot(tbaV[:,0],tbaV[:,1])
-plt.plot(tbaV[:,0],tbaV[:,2])
+# plt.plot(tbaV[:,0],tbaV[:,1])
+plt.plot(tbaV[:,0],tbaV[:,3])
 plt.tight_layout()
 plt.savefig("tbaV.png",dpi=150)
+plt.close()
+
+plt.figure(figsize=(8,8))
+plt.plot(k,mp[:,0],label=rf"RS",c='tab:blue',lw=5,alpha=0.5)
+plt.plot(k,tbaE,ls="--",label=rf"TBA",c='tab:blue')
+plt.grid(ls=":")
+plt.legend()
+plt.tight_layout()
+plt.savefig("tbaE.png",dpi=150)
+plt.close()
