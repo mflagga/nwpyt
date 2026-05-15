@@ -37,13 +37,18 @@ urlcolor=red
 \begin{document}
 \maketitle
 
-\section{Wstęp teoretyczny}
+% \section{Wstęp teoretyczny}
 
 \section{Realizacja}
+
+\subsection{Metoda RS}
+
+Zdefiniowano potencjał jako pojedynczą studnię i uwzględniono periodyczne warunki brzegowe w macierzy hamiltonianu. Napisano funkcję \texttt{diagHdlaK}, która korzysta z biblioteki \texttt{GSL} i jej funkcji do wyznaczania wartości własnych macierzy. Następnie zdiagonalizowano macierz dla różnych wartości $k$ na siatce $k\in[-\pi/a, \pi/a]$. Wykreślono dane poziomy energetyczne w funkcji wektora falowego:
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\linewidth]{mp.png}
-  \caption{asdsdsa}
+  \caption{Wyniki dla $V_0=-100,\ a=1$}
 \end{figure}
 
 \section{Źródła}

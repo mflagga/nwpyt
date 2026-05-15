@@ -9,8 +9,8 @@ int main(){
     // parametry układu
     double a=1.0;
     double V0=100.0;
-    int N=200;
-    int Nk=30;
+    int N=800;
+    int Nk=40;
 
     // parametry wtórne
     double w=a/2;
@@ -33,6 +33,7 @@ int main(){
         diagHdlaK(k,N,dx,t,V,ev);
         for (int j=0;j<N;j++){
             macierzPasmowa[p*N+j]=ev[j];
+            // tu trzeba dodac szukanie mina i maaxa dla danego poziomu E i wypelnieneie wektora W + zmienna max_poprzedni i wypelnienie wektora deltaE
         }
     }
 
