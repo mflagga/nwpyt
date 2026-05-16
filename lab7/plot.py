@@ -10,7 +10,7 @@ def wczytaj(*nazwy): # funkcja do wczytywania plikow od clauda
         globals()[nazwa] = np.loadtxt(nazwa + ".csv", delimiter=',')
 
 # wczytanie plików
-wczytaj("mp","misc","rsV","tbaV","tbaE")
+wczytaj("mp","misc","rsV","tbaV","tbaE","przerwy")
 N=int(misc[0])
 Nk=int(misc[1])
 a=misc[2]
@@ -55,4 +55,25 @@ plt.xlabel(r"Wektor falowy $k\ [a.u.]$")
 plt.ylabel(r"Energia $E\ [a.u.]$")
 plt.tight_layout()
 plt.savefig("tbaE.png",dpi=150)
+plt.close()
+
+pM=2*M
+plt.figure(figsize=(8,8))
+plt.plot(przerwy[:pM,0],ls="-",alpha=0.5)
+plt.scatter(range(len(przerwy[:pM,0])),przerwy[:pM,0],s=8)
+plt.xlabel("Numer pasma")
+plt.ylabel("Szerokość pasma $[a.u.]$")
+plt.grid(ls=":")
+plt.tight_layout()
+plt.savefig("W.png")
+plt.close()
+
+plt.figure(figsize=(8,8))
+plt.scatter(range(len(przerwy[:pM,1])),przerwy[:pM,1],s=8,c='tab:blue')
+plt.plot(przerwy[:pM,1],c='tab:blue',alpha=0.5)
+plt.xlabel("Numer przerwy")
+plt.ylabel("Przerwa energetyczna $[a.u.]$")
+plt.grid(ls=":")
+plt.tight_layout()
+plt.savefig("deltaE.png")
 plt.close()

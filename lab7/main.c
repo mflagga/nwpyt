@@ -8,9 +8,9 @@ int main(){
 
     // parametry układu
     double a=1.0;
-    double V0=100.0;
-    int N=800;
-    int Nk=40;
+    double V0=50.0;
+    int N=500;
+    int Nk=30;
 
     // parametry wtórne
     double w=a/2;
@@ -37,6 +37,23 @@ int main(){
         }
     }
 
+    // szukanie szerokosci i przerw energetycznych w pasmach
+    double min,max,maxp;
+    double *W=malloc(N*sizeof(double));
+    double *deltaE=malloc(N*sizeof(double));
+    for (int j=0;j<N;j++){
+        min=macierzPasmowa[j];
+        max=min;
+        for (int p=0;p<=Nk;p++){
+            if (macierzPasmowa[p*N+j]>max) max=macierzPasmowa[p*N+j];
+            if (macierzPasmowa[p*N+j]<min) min=macierzPasmowa[p*N+j];
+        }
+        if (j!=0) deltaE[j-1]=min-maxp;
+        W[j]=max-min;
+        maxp=max;
+    }
+    deltaE[N-1]=deltaE[N-2];
+
     // zapisanie 
     FILE *mp=fopen("mp.csv","w");
     for (int p=0;p<=Nk;p++){
@@ -51,6 +68,9 @@ int main(){
 
     FILE *misc=fopen("misc.csv","w");
     fprintf(misc,"%d,%d,%lf",N,Nk,a);
+
+    FILE *przerwy=fopen("przerwy.csv","w");
+    for (int j=0;j<N;j++) fprintf(przerwy,"%lf,%lf\n",W[j],deltaE[j]);
 
     // metoda TBA
     double xa=-2*a;
@@ -105,6 +125,9 @@ int main(){
     free(phi);
     free(Vtot);
     fclose(tbaE);
+    free(W);
+    free(deltaE);
+    fclose(przerwy);
 
     // return zero
     return 0;
