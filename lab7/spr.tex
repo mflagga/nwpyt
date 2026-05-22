@@ -55,7 +55,7 @@ Wykreślono dane poziomy energetyczne w funkcji wektora falowego:
 \begin{figure}[h]
   \centering
   \includegraphics[width=1.00\linewidth]{mp.png}
-  \caption{Pierwsze 4 pasma otrzymane metodą RS}
+  \caption{Pierwsze 4 pasma metodą RS}
   \label{mp}
 \end{figure}
 
@@ -64,9 +64,9 @@ Wyniki dla pierwszych 8 pasm przedstawia Wykres \ref{parametry}.
 
 Widzimy, że przy zwiększeniu stałej sieciowej $a$ pasma stają się bardzo wąskie.
 Pierwsze cztery pasma widoczne na Wykresie \ref{mp} teraz wyglądałyby jak poziome linie. 
-Przerwy energetyczne też stają się trochę mniejsze oraz ich tendencja do wzrostu utrzymuję się dłużej tj. przez pierwsze cztery pasma.
+Przerwy energetyczne też stają się trochę mniejsze oraz ich tendencja do wzrostu utrzymuje się dłużej tj. przez pierwsze cztery pasma.
 Zmniejszenie głębokości potencjału studni dwukrotnie nie wpływa znacząco na szerokość pasm natomiast sprawia, że pasma znajdują się bliżej siebie tzn. przerwy energetyczne są mniejsze. 
-Porównując wykresy \ref{dE} i \ref{dEV}, widzimy że dla mniejszej głębokości studni wartości przerw energetycznych zaczynają niżej oraz szybko spadają poniżej $5\ [a.u.]$.
+Porównując wykresy \ref{dE} i \ref{dEV}, widzimy że dla mniejszej głębokości studni wartości przerw energetycznych zaczynają niżej oraz szybko spadają poniżej $5\ a.u.$.
 
 \subsection{Metoda TBA}
 
@@ -80,7 +80,7 @@ Następnie zdefiniowano potencjał $V_{tot}$ jako trzy studnie scentrowane w zer
   \caption{Potencjał $V_{tot}(x)$}
   \label{tbaV}
 \end{figure}
-
+\newpage
 Dysponując potencjałem, energią własną oraz funkcją własną wyliczono całkę hoppingu $t$ oraz całkę przekrywania $s$, które następnie pozwoliły wyznaczyć energię ze wzoru
 
 \begin{align*}
@@ -92,12 +92,17 @@ Wyznaczona relacja dyspersji przedstawiona jest na Wykresie \ref{tbaE} razem z o
 \begin{figure}
   \centering
   \includegraphics[width=1.00\linewidth]{tbaE.png}
-  \caption{Porównanie pierwszego pasma dla różnych metod}
+  \caption{Porównanie pierwszego pasma}
   \label{tbaE}
 \end{figure}
 
-Widzimy, że kształt pasm jest bardzo zbliżony do siebie natomiast ich położenie jest przesunięte o około $0.025\ a.u.$. 
-Wynika to najprawdopodobniej z różnej wielkości pudła obliczeniowego i przez to różnej wartości \texttt{dx}. 
+Widzimy, że kształt pasm jest bardzo zbliżony do siebie natomiast ich położenie jest przesunięte o około $0.025\ a.u.$ co kłóci się z wynikiem uzyskanym na wykładzie. 
+
+Wynika to najprawdopodobniej z różnej wielkości pudła obliczeniowego między metodami i przez to różnej wartości \texttt{dx}. 
+Aby to naprawić należałoby zmienić potencjał dla metody RS na 5 studni połączonymi periodycznymi warunkami brzegowymi co tworzyłoby niepotrzebną komplikację.
+Alternatywnie można zmienić liczbę węzłów dla metody TBA tak, aby wartość \texttt{dx} była równa dla obu pudeł obliczeniowych. 
+Wiązałoby się to jednak z koniecznością ponownej alokacji tablic. 
+Nie podjęto próby naprawy.
 
 \begin{figure*}[t]
   \centering
@@ -148,7 +153,7 @@ Wynika to najprawdopodobniej z różnej wielkości pudła obliczeniowego i przez
     \label{dEV}
   \end{subfigure}
 
-  \caption{Wpływ parametrów $a$ oraz $V_0$ na strukturę pasmową}
+  \caption{Wpływ parametrów $a$ oraz $V_0$ na strukturę pasmową metodą RS}
   \label{parametry}
 \end{figure*}
 
