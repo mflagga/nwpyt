@@ -13,6 +13,9 @@
 \usepackage{subcaption}
 \usepackage{yfonts}
 \usepackage[margin=2cm]{geometry}
+\usepackage{indentfirst}
+\usepackage{siunitx}
+\usepackage[nospace,polish]{varioref}
 \usepackage{hyperref}
 \hypersetup{
 colorlinks=true,
@@ -39,7 +42,7 @@ urlcolor=red
 
 \subsection{Metoda RS}
 
-\hspace{0.4cm}Zdefiniowano potencjał jako pojedynczą studnię i uwzględniono periodyczne warunki brzegowe w macierzy hamiltonianu. 
+Zdefiniowano potencjał jako pojedynczą studnię i uwzględniono periodyczne warunki brzegowe w macierzy hamiltonianu. 
 
 \begin{figure}[h]
   \centering
@@ -60,7 +63,7 @@ Wykreślono dane poziomy energetyczne w funkcji wektora falowego.
 \end{figure}
 
 Zbadano wpływ parametrów $a$ oraz $V_0$ na szerokość i przerwy energetyczne pasm. 
-Wyniki dla pierwszych 8 pasm przedstawia Wykres \ref{parametry}.
+Wyniki dla pierwszych 8 pasm przedstawia Wykres \vref{parametry}.
 
 Widzimy, że przy zwiększeniu stałej sieciowej $a$ pasma stają się bardzo wąskie.
 Pierwsze cztery pasma widoczne na Wykresie \ref{mp} teraz wyglądałyby jak poziome linie. 
@@ -70,17 +73,17 @@ Porównując wykresy \ref{dE} i \ref{dEV}, widzimy że dla mniejszej głębokoś
 
 \subsection{Metoda TBA}
 
-\hspace{0.4cm}Zaczęto od rozwiązania pojedynczej studni potencjału scentrowanej w zerze na pudle obliczeniowym $x\in[-2a,3a]$.
+Zaczęto od rozwiązania pojedynczej studni potencjału scentrowanej w zerze na pudle obliczeniowym $x\in[-2a,3a]$.
 W tym celu ponownie skorzystano z biblioteki \texttt{GSL} otrzymując energię i funkcję własną odpowiadającą stanowi podstawowemu.
 Następnie zdefiniowano potencjał $V_{tot}$ jako trzy studnie scentrowane w zerze przedstawiony na Wykresie \ref{tbaV}.
 
-\begin{figure}[h]
+\begin{figure}
   \centering
   \includegraphics[width=1.00\linewidth]{tbaV.png}
   \caption{Potencjał $V_{tot}(x)$}
   \label{tbaV}
 \end{figure}
-\newpage
+
 Dysponując potencjałem, energią własną oraz funkcją własną wyliczono całkę hopping'u $t$ oraz całkę przekrywania $s$, które następnie pozwoliły wyznaczyć energię ze wzoru
 
 \begin{align*}
