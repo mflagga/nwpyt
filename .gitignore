@@ -3,6 +3,7 @@ nwenv/*
 *.png
 *.csv
 *.mp4
+*.o
 *.txt
 /.vscode/*
 **/build/
