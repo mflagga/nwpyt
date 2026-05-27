@@ -1,6 +1,5 @@
 #ifndef DEK_H
-    #define DEK_H
-#endif
+#define DEK_H
 
 #define M_PI 3.141592653589793115997963468544185161590576171875
 #include <stdio.h>
@@ -16,3 +15,5 @@ void initH(cmp *H, int N, double t, double eps);
 void zapiszModulMacierzy(cmp *M, int N, char *nazwa);
 void zapiszReMacierzy(cmp *M, int N, char *nazwa);
 void zapiszImMacierzy(cmp *M, int N, char *nazwa);
+
+#endif
