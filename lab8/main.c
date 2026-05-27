@@ -12,12 +12,9 @@ int main(){
     cmp *F=malloc(N*N*sizeof(cmp));
 
     // defniniowanie F
-    double xl,km;
     for (int l=0;l<N;l++){
-        xl = l*a;
         for (int m=0;m<N;m++){
-            km = 2.0*M_PI*m/(N*a);
-            F[l*N+m]=cexp(I*km*xl)/sqrt(N);
+            F[l*N+m]=cexp(2.0*M_PI*I*l*m/N)/sqrt(N);
         }
     }
 
