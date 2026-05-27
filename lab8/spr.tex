@@ -67,7 +67,7 @@ Napisano funkcje ``pomocnicze'' do:
 \begin{itemize}
     \item mnożenia dwóch macierzy -- \texttt{matmul}
     \item hermitowskiego sprzężenia -- \texttt{dagger}
-    \item inicjalizowania hamiltonianu dla danych parametrów -- \texttt{initH}
+    \item inicjalizacji hamiltonianu -- \texttt{initH}
     \item zapisywania macierzy -- \texttt{zapiszXMacierzy}
 \end{itemize}
 
@@ -75,10 +75,10 @@ Napisano funkcje ``pomocnicze'' do:
 
 \paragraph{Definicja}
 
-Plik \texttt{main.c} zaczęto od zdefiniowania macierzy $\hat{F}$ zgodnie ze wzorem
+Plik \texttt{main.c} zaczęto od zdefiniowania macierzy $\hat{F}$ zgodnie z zredukowanym wzorem
 
 \begin{align*}
-    F_{lm} = \frac{1}{\sqrt{N}}\exp{\left(\frac{2\pi mla}{Na}\right)}
+    F_{lm} = \frac{1}{\sqrt{N}}\exp{\left(\frac{2\pi i }{N}lm\right)}
 \end{align*}
 
 Graficzną postać $\hat{F}$ przedstawia Wykres \vref{F}.
@@ -132,9 +132,9 @@ Taka operacja jest jednak uzasadniona ponieważ hamiltonian w oryginalnej bazie 
 Uzyskane wartości własne na diagonali macierzy $\hat{H}_k$ są wektorem energii, który posłuży nam do wyznaczenia relacji dyspersji układu. 
 Wykreślono je w bardziej przystępnej formie wraz z spodziewanym wynikiem analitycznym określonym wzorem
 
-\begin{align*}
+\begin{align}\label{analit}
     E(k)=\epsilon + 2t\cos{(ka)}
-\end{align*}
+\end{align}
 
 \begin{figure}[h]
     \centering
@@ -208,20 +208,20 @@ Otrzymane pasma przedstawia Wykres \ref{parametry}.
 
 \paragraph{Wniosek}
 
-Widzimy, że uzyskane wykresy wciąż podporządkowują się wzorowi analitycznemu więc wszystkie wnioski można wyciągnąć na podstawie wzoru.
+Widzimy, że uzyskane wykresy wciąż podporządkowują się wzorowi analitycznemu więc wszystkie wnioski można wyciągnąć na podstawie wzoru \eqref{analit}.
 Niemniej jednak:
 
 \paragraph{Energia}
 
-Dla zmienionej wartości $\epsilon$ otrzymujemy liniową odpowiedź od średniej energii pasma. 
+Dla zmienionej wartości $\epsilon$ otrzymujemy liniową odpowiedź od średniej energii pasma opisaną wzorem $\left\langle E \right\rangle=\epsilon$.
 Można powiedzieć, że $\epsilon$ służy jako parametr translacji wzdłuż osi energii.
 Nie ma on wpływu na szerokość pasma.
 
 \paragraph{Całka Hopping'u}
 
-Zmieniając parametr $t$ ponownie otrzymujemy liniową zależność, tym razem od szerokości pasma.
+Zmieniając parametr $t$ ponownie otrzymujemy liniową odpowiedź, tym razem od szerokości pasma, opisaną wzorem $W=4|t|$ ze względu na bazową szerokość funkcji $\cos$ o wartości $2$.
 Całka hopping'u służy jako parametr skalowania kształtu pasma wzdłuż osi energii.
-Nie ma ona wpływu na średnią energię pasma.
+Parametr $t$ nie ma wpływu na średnią energię pasma.
 
 % to na koniec
 \begin{figure*}[t]
