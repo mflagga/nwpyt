@@ -14,7 +14,7 @@ void matmul(cmp *A, cmp *B, cmp *C, int N){
 void dagger(cmp *A, cmp *Adagger, int N){
     for (int i=0;i<N;i++){
         for (int j=0;j<N;j++){
-            Adagger[i*N+j]=conjl(A[j*N+i]);
+            Adagger[i*N+j]=conj(A[j*N+i]);
         }
     }
 }
