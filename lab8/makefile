@@ -7,7 +7,6 @@ ifeq ($(OS),Windows_NT)
 	VR = @echo nie ma valgrinda na windowsie
 	SLASH = $(strip \)
 	AVE = ..$(SLASH)nwenv$(SLASH)Scripts$(SLASH)activate
-	LATEX_ENV =
 else
 	ifdef VIRTUAL_ENV
 		PC = python
@@ -21,8 +20,6 @@ else
 	DEVNULL = /dev/null
 	VR = valgrind ./$(EXEC)
 	AVE = source ../nwenv/bin/activate
-	COMMIT_EPOCH := $(shell git log -1 --pretty=%ct 2>/dev/null || echo 0)
-	LATEX_ENV = SOURCE_DATE_EPOCH=$(COMMIT_EPOCH)
 endif
 
 .SUFFIXES:
@@ -55,8 +52,7 @@ $(MEDIA): $(SCRIPT) $(DATA)
 	$(PC) $<
 
 $(REPORT): $(TEX) $(MEDIA)
-	mkdir -p build && echo '\def\builddate{$(shell date -d @$(COMMIT_EPOCH) "+%d %B %Y")}' > build/date.tex
-	$(LATEX_ENV) latexmk -pdf -interaction=nonstopmode -output-directory=build $< > $(DEVNULL)
+	latexmk -pdf -interaction=nonstopmode -output-directory=build $< > $(DEVNULL)
 	$(MV) build$(SLASH)spr.pdf $@ > $(DEVNULL)
 
 clean:
